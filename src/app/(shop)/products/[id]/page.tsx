@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProduct } from "@/server/services/product.service";
 import { formatCurrency, formatPack } from "@/lib/format";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 /**
  * Product detail page. The "Add to Cart" action is wired up in the Cart
@@ -63,7 +64,9 @@ export default async function ProductDetailPage({
             )}
           </div>
 
-          {/* Add-to-cart button arrives in Step 4 (Cart module). */}
+          <div className="mt-2">
+            <AddToCartButton product={product} className="w-full sm:w-auto" />
+          </div>
         </div>
       </div>
     </div>

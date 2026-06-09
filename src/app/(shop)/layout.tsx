@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CartBadge } from "@/components/cart/CartBadge";
 
 /**
  * Storefront chrome — shared header for all customer-facing pages.
@@ -17,10 +18,11 @@ export default function ShopLayout({
             <span className="text-2xl">🥛</span>
             <span>MilkMart</span>
           </Link>
-          <nav className="text-sm text-slate-600">
+          <nav className="flex items-center gap-4 text-sm text-slate-600">
             <Link href="/" className="hover:text-slate-900">
               Shop
             </Link>
+            <CartBadge />
           </nav>
         </div>
       </header>
