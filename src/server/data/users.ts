@@ -8,7 +8,7 @@ export const users: User[] = [
   {
     id: "user_demo",
     name: "Aarav Sharma",
-    email: "aarav@example.com",
+    email: "user@milkmart.in",
     address: {
       line1: "12, Green Park Colony",
       city: "Pune",

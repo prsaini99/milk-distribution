@@ -7,6 +7,7 @@ import { ORDER_STATUS_LABELS } from "@/lib/order";
 /** Input accepted from the client at checkout — intentionally minimal. */
 export interface CreateOrderInput {
   userId: string;
+  customer: { name: string; email: string };
   items: { productId: string; quantity: number }[];
   address: Address;
 }
@@ -58,6 +59,7 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
   const order: Order = {
     id: generateOrderId(),
     userId: input.userId,
+    customer: input.customer,
     items,
     subtotal: summary.subtotal,
     deliveryFee: summary.deliveryFee,

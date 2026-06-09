@@ -33,6 +33,7 @@ function buildOrder(
   return {
     id,
     userId: users[0].id,
+    customer: { name: users[0].name, email: users[0].email },
     items,
     subtotal: summary.subtotal,
     deliveryFee: summary.deliveryFee,

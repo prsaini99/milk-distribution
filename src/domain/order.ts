@@ -34,6 +34,17 @@ export interface OrderItem {
 export interface Order {
   id: string;
   userId: string;
+
+  /**
+   * Snapshot of who placed the order, captured at order time. Like items and
+   * address, this is frozen so the historical record stays accurate even if
+   * the customer later changes their profile.
+   */
+  customer: {
+    name: string;
+    email: string;
+  };
+
   items: OrderItem[];
 
   subtotal: number; // paise

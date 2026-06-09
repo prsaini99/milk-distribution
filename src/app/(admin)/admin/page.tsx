@@ -78,9 +78,9 @@ export default async function AdminOverviewPage() {
                     <p className="truncate font-mono text-sm font-medium">
                       {o.id}
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      {formatDateTime(o.createdAt)} · {o.items.length} item
-                      {o.items.length === 1 ? "" : "s"}
+                    <p className="truncate text-xs text-muted-foreground">
+                      {o.customer.name} · {formatDateTime(o.createdAt)} ·{" "}
+                      {o.items.length} item{o.items.length === 1 ? "" : "s"}
                     </p>
                   </div>
                   <div className="flex items-center gap-4">

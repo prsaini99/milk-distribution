@@ -31,6 +31,7 @@ export async function POST(request: Request) {
     const user = await getCurrentUser();
     const order = await createOrder({
       userId: user.id,
+      customer: { name: user.name, email: user.email },
       items: body.items,
       address: body.address,
     });
