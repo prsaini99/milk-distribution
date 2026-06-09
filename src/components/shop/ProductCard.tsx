@@ -11,7 +11,7 @@ import { AddToCartButton } from "@/components/cart/AddToCartButton";
  */
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-md">
+    <div className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm transition duration-200 hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
       <Link href={`/products/${product.id}`} className="flex flex-col">
         <div className="relative aspect-square overflow-hidden bg-secondary/50">
           <Image

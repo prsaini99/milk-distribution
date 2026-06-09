@@ -129,9 +129,20 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Subtle depth: a faint green wash from the top of the page. */
+    background-image: radial-gradient(
+      ellipse 90% 50% at 50% -10%,
+      color-mix(in oklch, var(--primary) 7%, transparent),
+      transparent
+    );
+    background-attachment: fixed;
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 22%, transparent);
   }
   h1,
   h2,
