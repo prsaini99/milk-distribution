@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Check, Plus } from "lucide-react";
+import { toast } from "sonner";
 import type { Product } from "@/domain";
 import { useCart } from "./CartProvider";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,7 @@ export function AddToCartButton({
   const handleAdd = () => {
     addItem(product);
     setAdded(true);
+    toast.success(`${product.name} added to cart`);
     setTimeout(() => setAdded(false), 1200);
   };
 

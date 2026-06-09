@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MapPin, CreditCard, Lock, Truck } from "lucide-react";
+import { toast } from "sonner";
 import type { Address, User } from "@/domain";
 import { useCart } from "@/components/cart/CartProvider";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -59,6 +60,7 @@ export default function CheckoutPage() {
 
       setPlaced(true);
       clear();
+      toast.success(`Order ${data.id} placed successfully 🎉`);
       router.push(`/order/${data.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
