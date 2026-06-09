@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { MapPin, CreditCard, Lock, Truck } from "lucide-react";
 import type { Address, User } from "@/domain";
 import { useCart } from "@/components/cart/CartProvider";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -20,7 +21,6 @@ export default function CheckoutPage() {
   const [placed, setPlaced] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Prefill address from the (mock) logged-in user.
   useEffect(() => {
     fetch("/api/me")
       .then((res) => res.json())
@@ -40,8 +40,7 @@ export default function CheckoutPage() {
     setError(null);
 
     try {
-      // Simulated payment delay for demo realism.
-      await new Promise((r) => setTimeout(r, 900));
+      await new Promise((r) => setTimeout(r, 900)); // simulated payment
 
       const res = await fetch("/api/orders", {
         method: "POST",
@@ -58,7 +57,7 @@ export default function CheckoutPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Failed to place order");
 
-      setPlaced(true); // prevents the empty-cart flash before redirect
+      setPlaced(true);
       clear();
       router.push(`/order/${data.id}`);
     } catch (err) {
@@ -71,7 +70,7 @@ export default function CheckoutPage() {
     return (
       <div className="py-16 text-center">
         <h1 className="text-2xl font-bold">Nothing to check out</h1>
-        <p className="mt-1 text-slate-500">Your cart is empty.</p>
+        <p className="mt-1 text-muted-foreground">Your cart is empty.</p>
         <Link href="/" className={buttonVariants({ className: "mt-6" })}>
           Browse products
         </Link>
@@ -84,13 +83,16 @@ export default function CheckoutPage() {
       <h1 className="text-3xl font-bold">Checkout</h1>
 
       <div className="grid gap-8 lg:grid-cols-3">
-        {/* Delivery details */}
         <div className="space-y-4 lg:col-span-2">
-          <div className="rounded-xl border bg-white p-6">
-            <h2 className="text-lg font-semibold">Delivery Address</h2>
+          {/* Delivery address */}
+          <section className="rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
+            <h2 className="flex items-center gap-2 text-lg font-bold">
+              <MapPin className="size-5 text-primary" /> Delivery Address
+            </h2>
             {user && (
-              <p className="mt-1 text-sm text-slate-500">
-                Delivering to <span className="font-medium">{user.name}</span>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Delivering to{" "}
+                <span className="font-medium text-foreground">{user.name}</span>
               </p>
             )}
 
@@ -118,25 +120,38 @@ export default function CheckoutPage() {
                 className="sm:col-span-2"
               />
             </div>
-          </div>
 
-          <div className="rounded-xl border bg-white p-6">
-            <h2 className="text-lg font-semibold">Payment</h2>
-            <p className="mt-1 text-sm text-slate-500">
-              💳 This is a demo — no real payment is taken. Clicking “Place
-              Order” simulates a successful payment.
+            <p className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
+              <Truck className="size-4 text-primary" /> Estimated delivery:{" "}
+              <span className="font-medium text-foreground">
+                tomorrow morning
+              </span>
             </p>
-          </div>
+          </section>
+
+          {/* Payment */}
+          <section className="rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
+            <h2 className="flex items-center gap-2 text-lg font-bold">
+              <CreditCard className="size-5 text-primary" /> Payment
+            </h2>
+            <div className="mt-3 flex items-start gap-2 rounded-lg bg-secondary/60 px-4 py-3 text-sm text-muted-foreground">
+              <Lock className="mt-0.5 size-4 shrink-0 text-primary" />
+              <span>
+                This is a demo — no real payment is taken. Placing the order
+                simulates a successful, secure payment.
+              </span>
+            </div>
+          </section>
         </div>
 
         {/* Summary */}
-        <div className="h-fit space-y-4 rounded-xl border bg-white p-6">
-          <h2 className="text-lg font-semibold">Order Summary</h2>
+        <div className="h-fit space-y-4 rounded-2xl border border-border/70 bg-card p-6 shadow-sm lg:sticky lg:top-24">
+          <h2 className="text-lg font-bold">Order Summary</h2>
 
           <div className="space-y-2 text-sm">
             {lines.map(({ product, quantity }) => (
-              <div key={product.id} className="flex justify-between">
-                <span className="text-slate-500">
+              <div key={product.id} className="flex justify-between gap-2">
+                <span className="text-muted-foreground">
                   {product.name} × {quantity}
                 </span>
                 <span>{formatCurrency(product.price * quantity)}</span>
@@ -144,14 +159,18 @@ export default function CheckoutPage() {
             ))}
           </div>
 
-          <div className="space-y-2 border-t pt-3 text-sm">
+          <div className="space-y-2 border-t border-border/60 pt-3 text-sm">
             <div className="flex justify-between">
-              <span className="text-slate-500">Subtotal</span>
+              <span className="text-muted-foreground">Subtotal</span>
               <span>{formatCurrency(summary.subtotal)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-500">Delivery</span>
-              <span>
+              <span className="text-muted-foreground">Delivery</span>
+              <span
+                className={
+                  summary.deliveryFee === 0 ? "font-semibold text-primary" : ""
+                }
+              >
                 {summary.deliveryFee === 0
                   ? "FREE"
                   : formatCurrency(summary.deliveryFee)}
@@ -159,18 +178,34 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <div className="flex justify-between border-t pt-3 text-base font-semibold">
+          <div className="flex justify-between border-t border-border/60 pt-3 text-base font-bold">
             <span>Total</span>
             <span>{formatCurrency(summary.total)}</span>
           </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && (
+            <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {error}
+            </p>
+          )}
 
-          <Button type="submit" className="w-full" disabled={placing}>
-            {placing
-              ? "Processing…"
-              : `Pay ${formatCurrency(summary.total)} · Place Order`}
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full"
+            disabled={placing}
+          >
+            {placing ? (
+              "Processing…"
+            ) : (
+              <>
+                <Lock className="size-4" /> Pay {formatCurrency(summary.total)}
+              </>
+            )}
           </Button>
+          <p className="text-center text-xs text-muted-foreground">
+            Secured demo checkout
+          </p>
         </div>
       </div>
     </form>
@@ -189,13 +224,13 @@ function Field({
   className?: string;
 }) {
   return (
-    <label className={"flex flex-col gap-1 text-sm " + (className ?? "")}>
-      <span className="text-slate-600">{label}</span>
+    <label className={"flex flex-col gap-1.5 text-sm " + (className ?? "")}>
+      <span className="font-medium text-foreground/80">{label}</span>
       <input
         required
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-lg border px-3 py-2 outline-none focus:border-slate-400"
+        className="rounded-lg border border-border bg-background px-3 py-2 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
       />
     </label>
   );

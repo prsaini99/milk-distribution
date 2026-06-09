@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { Check, Plus } from "lucide-react";
 import type { Product } from "@/domain";
 import { useCart } from "./CartProvider";
 import { Button } from "@/components/ui/button";
 
 /**
  * Adds a product to the cart. Disabled when out of stock. Shows brief
- * "Added ✓" feedback so the demo feels responsive.
+ * "Added" feedback so the demo feels responsive.
  */
 export function AddToCartButton({
   product,
@@ -35,7 +36,15 @@ export function AddToCartButton({
 
   return (
     <Button onClick={handleAdd} className={className}>
-      {added ? "Added ✓" : "Add to Cart"}
+      {added ? (
+        <>
+          <Check className="size-4" /> Added
+        </>
+      ) : (
+        <>
+          <Plus className="size-4" /> Add to Cart
+        </>
+      )}
     </Button>
   );
 }

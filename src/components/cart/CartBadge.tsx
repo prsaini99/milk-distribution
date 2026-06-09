@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 import { useCart } from "./CartProvider";
 
 /**
- * Header cart link with a live item-count badge.
+ * Header cart icon with a count bubble at the top-right corner that
+ * reflects the number of items in the cart.
  */
 export function CartBadge() {
   const { summary } = useCart();
@@ -12,11 +14,12 @@ export function CartBadge() {
   return (
     <Link
       href="/cart"
-      className="relative inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-4 py-1.5 text-sm font-medium hover:border-slate-300"
+      aria-label={`Cart, ${summary.count} item${summary.count === 1 ? "" : "s"}`}
+      className="relative inline-flex size-10 items-center justify-center rounded-full text-foreground transition hover:bg-secondary"
     >
-      <span>🛒 Cart</span>
+      <ShoppingCart className="size-5" />
       {summary.count > 0 && (
-        <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-slate-900 px-1.5 text-xs font-semibold text-white">
+        <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-bold text-primary-foreground ring-2 ring-background">
           {summary.count}
         </span>
       )}
