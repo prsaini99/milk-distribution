@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Milk, Phone, Mail, MapPin } from "lucide-react";
+import { Milk, Phone, Mail, MapPin, ShieldCheck } from "lucide-react";
 import { CartBadge } from "@/components/cart/CartBadge";
 import { ModeSwitch } from "@/components/shop/ModeSwitch";
 import { UserMenu } from "@/components/auth/UserMenu";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { getSession } from "@/server/services/auth.service";
 
 /**
@@ -35,17 +36,33 @@ export default async function ShopLayout({
           </div>
 
           <div className="flex items-center gap-2 justify-self-end sm:gap-3">
-            {session ? (
-              <UserMenu email={session.email} />
+            {session?.role === "admin" ? (
+              // Admins are previewing the storefront, not shopping as a customer.
+              <>
+                <Link
+                  href="/admin"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-2 text-sm font-medium text-primary transition hover:bg-primary/20"
+                >
+                  <ShieldCheck className="size-4" />
+                  <span className="hidden sm:inline">Admin dashboard</span>
+                </Link>
+                <LogoutButton redirectTo="/login" />
+              </>
             ) : (
-              <Link
-                href="/login"
-                className="rounded-full px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary"
-              >
-                Login
-              </Link>
+              <>
+                {session ? (
+                  <UserMenu email={session.email} />
+                ) : (
+                  <Link
+                    href="/login"
+                    className="rounded-full px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary"
+                  >
+                    Login
+                  </Link>
+                )}
+                <CartBadge />
+              </>
             )}
-            <CartBadge />
           </div>
         </div>
       </header>
