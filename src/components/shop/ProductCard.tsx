@@ -31,12 +31,15 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <div className="flex flex-col gap-0.5 px-4 pt-3.5 pb-2">
+        <div className="flex flex-1 flex-col gap-0.5 px-4 pt-3.5 pb-2">
           <h3 className="font-semibold leading-tight">{product.name}</h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             {formatPack(product.size, product.unit)}
           </p>
-          <p className="pt-1 text-lg font-bold text-foreground">
+          <p className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground">
+            {product.description}
+          </p>
+          <p className="mt-auto pt-2 text-lg font-bold text-foreground">
             {formatCurrency(product.price)}
           </p>
         </div>

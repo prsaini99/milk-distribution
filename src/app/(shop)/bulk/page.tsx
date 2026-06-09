@@ -1,13 +1,21 @@
 import { Boxes, TrendingDown, FileText, CalendarClock } from "lucide-react";
 import { listBulkProducts } from "@/server/services/product.service";
-import { BulkProductCard } from "@/components/bulk/BulkProductCard";
+import { listCategories } from "@/server/services/category.service";
+import { BulkBrowser } from "@/components/bulk/BulkBrowser";
 
 /**
  * Bulk / Wholesale storefront for businesses (shops, cafés, hotels).
  * Reuses the shared cart + checkout — pricing is resolved per quantity.
  */
 export default async function BulkPage() {
-  const products = await listBulkProducts();
+  const [products, allCategories] = await Promise.all([
+    listBulkProducts(),
+    listCategories(),
+  ]);
+  // Only offer categories that actually have wholesale products.
+  const categories = allCategories.filter((c) =>
+    products.some((p) => p.categoryId === c.id),
+  );
 
   return (
     <div className="space-y-10">
@@ -44,13 +52,8 @@ export default async function BulkPage() {
       </section>
 
       {/* Bulk catalogue */}
-      <section className="space-y-5">
-        <h2 className="text-2xl font-bold">Wholesale catalogue</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((p) => (
-            <BulkProductCard key={p.id} product={p} />
-          ))}
-        </div>
+      <section>
+        <BulkBrowser products={products} categories={categories} />
       </section>
     </div>
   );

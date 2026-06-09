@@ -17,7 +17,7 @@ export default async function ShopLayout({
   return (
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
-        <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 py-3.5">
+        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-3.5">
           <Link href="/" className="flex items-center gap-2.5 justify-self-start">
             <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
               <Milk className="size-5" />
@@ -50,12 +50,12 @@ export default async function ShopLayout({
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
         {children}
       </main>
 
       <footer className="mt-12 border-t border-border/60 bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-4 py-10">
+        <div className="mx-auto max-w-7xl px-4 py-10">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {/* Brand */}
             <div className="lg:col-span-1">

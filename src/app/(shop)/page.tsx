@@ -3,21 +3,16 @@ import Link from "next/link";
 import { Truck, Leaf, ShieldCheck, ArrowRight, Boxes } from "lucide-react";
 import { listProducts } from "@/server/services/product.service";
 import { listCategories } from "@/server/services/category.service";
-import { ProductCard } from "@/components/shop/ProductCard";
+import { CatalogueBrowser } from "@/components/shop/CatalogueBrowser";
 import { buttonVariants } from "@/components/ui/button";
 
 /**
- * Storefront home / catalogue. Server component — calls the service layer
- * directly. Category filtering is driven by the `?category=<slug>` param.
+ * Storefront home. Server component — fetches the catalogue from the service
+ * layer; search + category filtering happen client-side in CatalogueBrowser.
  */
-export default async function CataloguePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
-  const { category } = await searchParams;
+export default async function CataloguePage() {
   const [products, categories] = await Promise.all([
-    listProducts(category),
+    listProducts(),
     listCategories(),
   ]);
 
@@ -97,38 +92,8 @@ export default async function CataloguePage({
       </section>
 
       {/* Catalogue */}
-      <section id="catalogue" className="scroll-mt-24 space-y-5">
-        <div className="flex items-end justify-between">
-          <h2 className="text-2xl font-bold">Shop our range</h2>
-          <span className="text-sm text-muted-foreground">
-            {products.length} product{products.length === 1 ? "" : "s"}
-          </span>
-        </div>
-
-        {/* Category filter — horizontal scroll on mobile */}
-        <nav className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <FilterPill label="All" href="/#catalogue" active={!category} />
-          {categories.map((c) => (
-            <FilterPill
-              key={c.id}
-              label={c.name}
-              href={`/?category=${c.slug}#catalogue`}
-              active={category === c.slug}
-            />
-          ))}
-        </nav>
-
-        {products.length === 0 ? (
-          <p className="py-16 text-center text-muted-foreground">
-            No products found in this category.
-          </p>
-        ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        )}
+      <section id="catalogue" className="scroll-mt-24">
+        <CatalogueBrowser products={products} categories={categories} />
       </section>
     </div>
   );
@@ -146,29 +111,5 @@ function Chip({
       {icon}
       {children}
     </span>
-  );
-}
-
-function FilterPill({
-  label,
-  href,
-  active,
-}: {
-  label: string;
-  href: string;
-  active: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      className={
-        "shrink-0 rounded-full border px-4 py-1.5 text-sm font-medium transition " +
-        (active
-          ? "border-primary bg-primary text-primary-foreground shadow-sm"
-          : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground")
-      }
-    >
-      {label}
-    </Link>
   );
 }
