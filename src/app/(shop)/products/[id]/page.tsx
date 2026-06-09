@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Truck, ShieldCheck } from "lucide-react";
 import { getProduct } from "@/server/services/product.service";
 import { formatCurrency, formatPack } from "@/lib/format";
-import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { QuantityAddToCart } from "@/components/cart/QuantityAddToCart";
 
 /**
  * Product detail page.
@@ -64,7 +64,7 @@ export default async function ProductDetailPage({
           </p>
 
           <div className="pt-1">
-            <AddToCartButton product={product} className="w-full sm:w-auto" />
+            <QuantityAddToCart product={product} />
           </div>
 
           {/* Reassurance strip */}

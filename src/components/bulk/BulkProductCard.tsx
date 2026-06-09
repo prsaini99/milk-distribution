@@ -61,6 +61,11 @@ export function BulkProductCard({ product }: { product: Product }) {
           <p className="mt-1 text-sm text-muted-foreground">
             Retail {formatCurrency(product.price)}
           </p>
+          {!product.inStock && (
+            <span className="mt-1.5 inline-flex rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">
+              Out of stock
+            </span>
+          )}
         </div>
       </div>
 
@@ -134,9 +139,15 @@ export function BulkProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <Button onClick={handleAdd} className="w-full">
-          <Check className="size-4" /> Add {qty} to cart
-        </Button>
+        {product.inStock ? (
+          <Button onClick={handleAdd} className="w-full">
+            <Check className="size-4" /> Add {qty} to cart
+          </Button>
+        ) : (
+          <Button disabled variant="secondary" className="w-full">
+            Out of stock
+          </Button>
+        )}
       </div>
     </div>
   );

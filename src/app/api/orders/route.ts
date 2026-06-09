@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { Address } from "@/domain";
 import { createOrder } from "@/server/services/order.service";
-import { getCurrentUser } from "@/server/services/auth.service";
+import { getCurrentUser, getSession } from "@/server/services/auth.service";
 
 interface OrderRequestBody {
   items: { productId: string; quantity: number }[];
@@ -13,6 +13,12 @@ interface OrderRequestBody {
  * The user is resolved server-side (mock auth); the client never sends it.
  */
 export async function POST(request: Request) {
+  // Must be logged in to place an order (the page is gated, and so is the API).
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Login required" }, { status: 401 });
+  }
+
   let body: OrderRequestBody;
   try {
     body = await request.json();
