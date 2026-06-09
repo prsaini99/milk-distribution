@@ -9,6 +9,7 @@ import type { Address, User } from "@/domain";
 import { useCart } from "@/components/cart/CartProvider";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/format";
+import { lineTotal } from "@/lib/cart";
 
 const EMPTY_ADDRESS: Address = { line1: "", city: "", pincode: "", phone: "" };
 
@@ -151,12 +152,15 @@ export default function CheckoutPage() {
           <h2 className="text-lg font-bold">Order Summary</h2>
 
           <div className="space-y-2 text-sm">
-            {lines.map(({ product, quantity }) => (
-              <div key={product.id} className="flex justify-between gap-2">
+            {lines.map((line) => (
+              <div
+                key={line.product.id}
+                className="flex justify-between gap-2"
+              >
                 <span className="text-muted-foreground">
-                  {product.name} × {quantity}
+                  {line.product.name} × {line.quantity}
                 </span>
-                <span>{formatCurrency(product.price * quantity)}</span>
+                <span>{formatCurrency(lineTotal(line))}</span>
               </div>
             ))}
           </div>

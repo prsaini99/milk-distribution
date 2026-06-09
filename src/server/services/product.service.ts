@@ -28,3 +28,9 @@ export async function listProducts(categorySlug?: string): Promise<Product[]> {
 export async function getProduct(id: string): Promise<Product | null> {
   return productRepository.findById(id);
 }
+
+/** Products that offer wholesale pricing (used by the Bulk section). */
+export async function listBulkProducts(): Promise<Product[]> {
+  const all = await productRepository.findAll();
+  return all.filter((p) => (p.bulkTiers?.length ?? 0) > 0);
+}

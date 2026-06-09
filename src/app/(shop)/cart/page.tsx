@@ -6,7 +6,7 @@ import { Minus, Plus, Trash2, ShoppingCart, ArrowRight } from "lucide-react";
 import { useCart } from "@/components/cart/CartProvider";
 import { buttonVariants } from "@/components/ui/button";
 import { formatCurrency, formatPack } from "@/lib/format";
-import { FREE_DELIVERY_THRESHOLD } from "@/lib/cart";
+import { FREE_DELIVERY_THRESHOLD, lineTotal, lineUnitPrice } from "@/lib/cart";
 
 export default function CartPage() {
   const { lines, summary, updateQuantity, removeItem } = useCart();
@@ -37,7 +37,11 @@ export default function CartPage() {
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Line items */}
         <div className="space-y-3 lg:col-span-2">
-          {lines.map(({ product, quantity }) => (
+          {lines.map((line) => {
+            const { product, quantity } = line;
+            const unit = lineUnitPrice(line);
+            const isWholesale = unit < product.price;
+            return (
             <div
               key={product.id}
               className="flex gap-4 rounded-2xl border border-border/70 bg-card p-4 shadow-sm"
@@ -59,12 +63,16 @@ export default function CartPage() {
                       {product.name}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      {formatPack(product.size, product.unit)}
+                      {formatPack(product.size, product.unit)} ·{" "}
+                      {formatCurrency(unit)} each
                     </p>
+                    {isWholesale && (
+                      <span className="mt-1 inline-flex rounded-full bg-gold/15 px-2 py-0.5 text-xs font-medium text-foreground/80">
+                        Wholesale price applied
+                      </span>
+                    )}
                   </div>
-                  <p className="font-bold">
-                    {formatCurrency(product.price * quantity)}
-                  </p>
+                  <p className="font-bold">{formatCurrency(lineTotal(line))}</p>
                 </div>
 
                 <div className="mt-auto flex items-center justify-between pt-2">
@@ -97,7 +105,8 @@ export default function CartPage() {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Summary */}

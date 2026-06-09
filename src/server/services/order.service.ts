@@ -1,6 +1,7 @@
 import type { Address, Order, OrderItem, OrderStatus } from "@/domain";
 import { productRepository, orderRepository } from "@/server/repositories";
 import { type CartLine, computeSummary } from "@/lib/cart";
+import { unitPriceFor } from "@/lib/pricing";
 import { ORDER_STATUS_LABELS } from "@/lib/order";
 
 /** Input accepted from the client at checkout — intentionally minimal. */
@@ -47,7 +48,8 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
   const items: OrderItem[] = lines.map((l) => ({
     productId: l.product.id,
     name: l.product.name,
-    price: l.product.price,
+    // Effective price (wholesale tier applied when quantity qualifies).
+    price: unitPriceFor(l.product, l.quantity),
     size: l.product.size,
     unit: l.product.unit,
     quantity: l.quantity,

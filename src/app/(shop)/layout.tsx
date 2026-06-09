@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Milk } from "lucide-react";
 import { CartBadge } from "@/components/cart/CartBadge";
+import { ModeSwitch } from "@/components/shop/ModeSwitch";
 
 /**
  * Storefront chrome — shared header for all customer-facing pages.
@@ -13,8 +14,8 @@ export default function ShopLayout({
   return (
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5">
-          <Link href="/" className="flex items-center gap-2.5">
+        <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 py-3.5">
+          <Link href="/" className="flex items-center gap-2.5 justify-self-start">
             <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
               <Milk className="size-5" />
             </span>
@@ -26,7 +27,13 @@ export default function ShopLayout({
             </span>
           </Link>
 
-          <CartBadge />
+          <div className="justify-self-center">
+            <ModeSwitch />
+          </div>
+
+          <div className="justify-self-end">
+            <CartBadge />
+          </div>
         </div>
       </header>
 

@@ -3,6 +3,7 @@ import type { Product } from "@/domain";
 /**
  * Seed product catalogue for the demo. Prices are in paise (₹1 = 100).
  * Images are served locally from /public/catalogue (see imageUrl below).
+ * `bulkTiers` (optional) define wholesale price breaks for the Bulk section.
  */
 const img = (file: string) => `/catalogue/${file}.jpg`;
 
@@ -17,6 +18,11 @@ export const products: Product[] = [
     size: 500,
     unit: "ml",
     inStock: true,
+    bulkTiers: [
+      { minQty: 12, price: 3200 },
+      { minQty: 48, price: 2950 },
+      { minQty: 144, price: 2750 },
+    ],
   },
   {
     id: "prod_milk_toned_1l",
@@ -28,6 +34,11 @@ export const products: Product[] = [
     size: 1,
     unit: "L",
     inStock: true,
+    bulkTiers: [
+      { minQty: 12, price: 5500 },
+      { minQty: 48, price: 5100 },
+      { minQty: 120, price: 4800 },
+    ],
   },
   {
     id: "prod_curd_400",
@@ -39,6 +50,10 @@ export const products: Product[] = [
     size: 400,
     unit: "g",
     inStock: true,
+    bulkTiers: [
+      { minQty: 12, price: 3600 },
+      { minQty: 48, price: 3300 },
+    ],
   },
   {
     id: "prod_yogurt_greek_200",
@@ -61,6 +76,11 @@ export const products: Product[] = [
     size: 500,
     unit: "ml",
     inStock: true,
+    bulkTiers: [
+      { minQty: 6, price: 30000 },
+      { minQty: 24, price: 28000 },
+      { minQty: 60, price: 26500 },
+    ],
   },
   {
     id: "prod_ghee_buffalo_1l",
@@ -72,6 +92,11 @@ export const products: Product[] = [
     size: 1,
     unit: "L",
     inStock: true,
+    bulkTiers: [
+      { minQty: 6, price: 55000 },
+      { minQty: 24, price: 51000 },
+      { minQty: 60, price: 48000 },
+    ],
   },
   {
     id: "prod_paneer_200",
@@ -83,6 +108,10 @@ export const products: Product[] = [
     size: 200,
     unit: "g",
     inStock: true,
+    bulkTiers: [
+      { minQty: 10, price: 8200 },
+      { minQty: 40, price: 7500 },
+    ],
   },
   {
     id: "prod_paneer_malai_500",
@@ -94,6 +123,10 @@ export const products: Product[] = [
     size: 500,
     unit: "g",
     inStock: true,
+    bulkTiers: [
+      { minQty: 10, price: 20500 },
+      { minQty: 40, price: 19000 },
+    ],
   },
   {
     id: "prod_butter_100",
@@ -105,6 +138,10 @@ export const products: Product[] = [
     size: 100,
     unit: "g",
     inStock: true,
+    bulkTiers: [
+      { minQty: 12, price: 5300 },
+      { minQty: 48, price: 4900 },
+    ],
   },
   {
     id: "prod_chaas_500",
@@ -116,5 +153,9 @@ export const products: Product[] = [
     size: 500,
     unit: "ml",
     inStock: true,
+    bulkTiers: [
+      { minQty: 24, price: 2200 },
+      { minQty: 96, price: 2000 },
+    ],
   },
 ];

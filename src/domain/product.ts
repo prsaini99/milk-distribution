@@ -4,6 +4,15 @@
 export type Unit = "ml" | "L" | "g" | "kg" | "piece";
 
 /**
+ * A wholesale price break: at `minQty` packs or more, each pack costs
+ * `price` (paise). Tiers are ordered ascending by minQty.
+ */
+export interface PriceTier {
+  minQty: number;
+  price: number; // paise, per pack
+}
+
+/**
  * A sellable dairy product — represents a specific pack
  * (e.g. "Full Cream Milk, 500ml" or "Cow Ghee, 1kg").
  */
@@ -26,4 +35,11 @@ export interface Product {
   unit: Unit;
 
   inStock: boolean;
+
+  /**
+   * Optional wholesale price breaks for bulk buyers. When present, the
+   * product is available in the Bulk/Wholesale section. Ordered ascending
+   * by minQty. `price` (retail) always applies below the first tier.
+   */
+  bulkTiers?: PriceTier[];
 }
