@@ -1,0 +1,9 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="600" fill="#f1ede3"/>
+  <g fill="none" stroke="#15803d" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.55">
+    <path d="M250 170h100l-12 70a30 30 0 0 1-30 25h-16a30 30 0 0 1-30-25z"/>
+    <path d="M268 130h64v40h-64z"/>
+    <path d="M300 300v110"/>
+  </g>
+  <text x="300" y="470" font-family="Georgia, serif" font-size="34" fill="#15803d" opacity="0.6" text-anchor="middle">No image</text>
+</svg>
