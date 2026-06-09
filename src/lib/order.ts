@@ -1,5 +1,14 @@
 import type { OrderStatus } from "@/domain";
 
+/** All statuses in lifecycle order — used to render the admin status picker. */
+export const ORDER_STATUS_FLOW: OrderStatus[] = [
+  "pending",
+  "confirmed",
+  "out_for_delivery",
+  "delivered",
+  "cancelled",
+];
+
 /** Human-friendly labels for order statuses. */
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
   pending: "Pending",

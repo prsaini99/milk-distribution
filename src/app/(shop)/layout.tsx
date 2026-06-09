@@ -43,6 +43,12 @@ export default function ShopLayout({
           <p className="mt-1">
             Farm-fresh dairy delivered to your door, every day.
           </p>
+          <Link
+            href="/admin"
+            className="mt-3 inline-block text-xs text-muted-foreground/70 transition hover:text-primary"
+          >
+            Distributor admin →
+          </Link>
         </div>
       </footer>
     </div>

@@ -1,4 +1,4 @@
-import type { Order } from "@/domain";
+import type { Order, OrderStatus } from "@/domain";
 import { orderStore } from "@/server/data/orders.store";
 
 /**
@@ -9,6 +9,7 @@ export interface OrderRepository {
   create(order: Order): Promise<Order>;
   findById(id: string): Promise<Order | null>;
   findAll(): Promise<Order[]>;
+  updateStatus(id: string, status: OrderStatus): Promise<Order | null>;
 }
 
 export class MockOrderRepository implements OrderRepository {
@@ -23,5 +24,15 @@ export class MockOrderRepository implements OrderRepository {
 
   async findAll(): Promise<Order[]> {
     return orderStore;
+  }
+
+  async updateStatus(
+    id: string,
+    status: OrderStatus,
+  ): Promise<Order | null> {
+    const order = orderStore.find((o) => o.id === id);
+    if (!order) return null;
+    order.status = status;
+    return order;
   }
 }

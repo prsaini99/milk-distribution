@@ -1,6 +1,7 @@
-import type { Address, Order, OrderItem } from "@/domain";
+import type { Address, Order, OrderItem, OrderStatus } from "@/domain";
 import { productRepository, orderRepository } from "@/server/repositories";
 import { type CartLine, computeSummary } from "@/lib/cart";
+import { ORDER_STATUS_LABELS } from "@/lib/order";
 
 /** Input accepted from the client at checkout — intentionally minimal. */
 export interface CreateOrderInput {
@@ -72,7 +73,44 @@ export async function getOrder(id: string): Promise<Order | null> {
   return orderRepository.findById(id);
 }
 
-/** All orders, newest first (used by the admin dashboard in Step 6). */
+/** All orders, newest first (used by the admin dashboard). */
 export async function listOrders(): Promise<Order[]> {
   return orderRepository.findAll();
+}
+
+/**
+ * Update an order's status (admin action). Validates the status value and
+ * that the order exists.
+ */
+export async function updateOrderStatus(
+  id: string,
+  status: OrderStatus,
+): Promise<Order> {
+  if (!(status in ORDER_STATUS_LABELS)) {
+    throw new Error(`Invalid status: ${status}`);
+  }
+
+  const updated = await orderRepository.updateStatus(id, status);
+  if (!updated) {
+    throw new Error(`Order not found: ${id}`);
+  }
+  return updated;
+}
+
+export interface OrderStats {
+  totalOrders: number;
+  totalRevenue: number; // paise, excludes cancelled orders
+  pendingCount: number;
+}
+
+/** Aggregate figures for the admin overview. */
+export async function getOrderStats(): Promise<OrderStats> {
+  const orders = await orderRepository.findAll();
+  return {
+    totalOrders: orders.length,
+    totalRevenue: orders
+      .filter((o) => o.status !== "cancelled")
+      .reduce((sum, o) => sum + o.total, 0),
+    pendingCount: orders.filter((o) => o.status === "pending").length,
+  };
 }
