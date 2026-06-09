@@ -9,6 +9,7 @@ export interface OrderRepository {
   create(order: Order): Promise<Order>;
   findById(id: string): Promise<Order | null>;
   findAll(): Promise<Order[]>;
+  findByUser(userId: string): Promise<Order[]>;
   updateStatus(id: string, status: OrderStatus): Promise<Order | null>;
 }
 
@@ -24,6 +25,10 @@ export class MockOrderRepository implements OrderRepository {
 
   async findAll(): Promise<Order[]> {
     return orderStore;
+  }
+
+  async findByUser(userId: string): Promise<Order[]> {
+    return orderStore.filter((o) => o.userId === userId);
   }
 
   async updateStatus(

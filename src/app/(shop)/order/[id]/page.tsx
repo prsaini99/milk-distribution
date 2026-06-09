@@ -109,9 +109,12 @@ export default async function OrderConfirmationPage({
         </p>
       </div>
 
-      <div className="text-center">
+      <div className="flex flex-wrap justify-center gap-3">
         <Link href="/" className={buttonVariants({ variant: "outline" })}>
           Continue shopping
+        </Link>
+        <Link href="/account/orders" className={buttonVariants()}>
+          View my orders
         </Link>
       </div>
     </div>

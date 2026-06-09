@@ -80,6 +80,11 @@ export async function listOrders(): Promise<Order[]> {
   return orderRepository.findAll();
 }
 
+/** A single customer's orders, newest first (used by the account area). */
+export async function listUserOrders(userId: string): Promise<Order[]> {
+  return orderRepository.findByUser(userId);
+}
+
 /**
  * Update an order's status (admin action). Validates the status value and
  * that the order exists.

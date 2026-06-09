@@ -2,15 +2,18 @@ import Link from "next/link";
 import { Milk, Phone, Mail, MapPin } from "lucide-react";
 import { CartBadge } from "@/components/cart/CartBadge";
 import { ModeSwitch } from "@/components/shop/ModeSwitch";
+import { UserMenu } from "@/components/auth/UserMenu";
+import { getSession } from "@/server/services/auth.service";
 
 /**
  * Storefront chrome — shared header for all customer-facing pages.
  */
-export default function ShopLayout({
+export default async function ShopLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getSession();
   return (
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
@@ -31,7 +34,17 @@ export default function ShopLayout({
             <ModeSwitch />
           </div>
 
-          <div className="justify-self-end">
+          <div className="flex items-center gap-2 justify-self-end sm:gap-3">
+            {session ? (
+              <UserMenu email={session.email} />
+            ) : (
+              <Link
+                href="/login"
+                className="rounded-full px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary"
+              >
+                Login
+              </Link>
+            )}
             <CartBadge />
           </div>
         </div>
