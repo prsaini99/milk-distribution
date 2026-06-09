@@ -4,7 +4,7 @@ import { CartBadge } from "@/components/cart/CartBadge";
 import { ModeSwitch } from "@/components/shop/ModeSwitch";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { LogoutButton } from "@/components/auth/LogoutButton";
-import { getSession } from "@/server/services/auth.service";
+import { getSession, getCurrentUser } from "@/server/services/auth.service";
 
 /**
  * Storefront chrome — shared header for all customer-facing pages.
@@ -15,6 +15,8 @@ export default async function ShopLayout({
   children: React.ReactNode;
 }) {
   const session = await getSession();
+  const customerName =
+    session?.role === "user" ? (await getCurrentUser()).name : "";
   return (
     <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
@@ -51,7 +53,7 @@ export default async function ShopLayout({
             ) : (
               <>
                 {session ? (
-                  <UserMenu email={session.email} />
+                  <UserMenu name={customerName} email={session.email} />
                 ) : (
                   <Link
                     href="/login"

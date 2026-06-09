@@ -62,7 +62,7 @@ export default function CheckoutPage() {
       setPlaced(true);
       clear();
       toast.success(`Order ${data.id} placed successfully 🎉`);
-      router.push(`/order/${data.id}`);
+      router.push(`/order/${data.id}?placed=1`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setPlacing(false);

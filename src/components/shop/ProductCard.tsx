@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/domain";
-import { formatCurrency, formatPack } from "@/lib/format";
+import { formatCurrency, formatPack, formatUnitPrice } from "@/lib/format";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 /**
@@ -39,9 +39,16 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground">
             {product.description}
           </p>
-          <p className="mt-auto pt-2 text-lg font-bold text-foreground">
-            {formatCurrency(product.price)}
-          </p>
+          <div className="mt-auto flex items-baseline gap-2 pt-2">
+            <span className="text-lg font-bold text-foreground">
+              {formatCurrency(product.price)}
+            </span>
+            {formatUnitPrice(product.price, product.size, product.unit) && (
+              <span className="text-xs text-muted-foreground">
+                {formatUnitPrice(product.price, product.size, product.unit)}
+              </span>
+            )}
+          </div>
         </div>
       </Link>
 

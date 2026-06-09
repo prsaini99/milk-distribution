@@ -106,6 +106,26 @@ export async function updateOrderStatus(
   return updated;
 }
 
+/**
+ * Customer-initiated cancellation. Only the order's owner may cancel, and
+ * only while it's still `pending` (before the distributor acts on it).
+ */
+export async function cancelOrder(
+  orderId: string,
+  userId: string,
+): Promise<Order> {
+  const order = await orderRepository.findById(orderId);
+  if (!order) throw new Error("Order not found");
+  if (order.userId !== userId) throw new Error("Not your order");
+  if (order.status !== "pending") {
+    throw new Error("Only pending orders can be cancelled");
+  }
+
+  const updated = await orderRepository.updateStatus(orderId, "cancelled");
+  if (!updated) throw new Error("Order not found");
+  return updated;
+}
+
 export interface OrderStats {
   totalOrders: number;
   totalRevenue: number; // paise, excludes cancelled orders

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { OrderStatus } from "@/domain";
 import { getOrder, updateOrderStatus } from "@/server/services/order.service";
+import { getSession } from "@/server/services/auth.service";
 
 /** GET /api/orders/:id -> a single order, or 404. */
 export async function GET(
@@ -22,6 +23,11 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const session = await getSession();
+  if (session?.role !== "admin") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const { id } = await params;
 
   let body: { status?: OrderStatus };

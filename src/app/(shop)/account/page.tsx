@@ -4,7 +4,6 @@ import { getCurrentUser } from "@/server/services/auth.service";
 import { listUserOrders } from "@/server/services/order.service";
 import { formatCurrency, formatDateTime } from "@/lib/format";
 import { StatusBadge } from "@/components/StatusBadge";
-import { AccountNav } from "@/components/account/AccountNav";
 
 export const dynamic = "force-dynamic";
 
@@ -22,14 +21,11 @@ export default async function AccountPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Hello, {user.name}</h1>
-          <p className="text-sm text-muted-foreground">
-            Welcome back to your account.
-          </p>
-        </div>
-        <AccountNav />
+      <div>
+        <h1 className="text-3xl font-bold">Hello, {user.name}</h1>
+        <p className="text-sm text-muted-foreground">
+          Welcome back to your account.
+        </p>
       </div>
 
       {/* Stats */}
