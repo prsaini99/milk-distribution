@@ -1,0 +1,78 @@
+import type { Address, Order, OrderItem } from "@/domain";
+import { productRepository, orderRepository } from "@/server/repositories";
+import { type CartLine, computeSummary } from "@/lib/cart";
+
+/** Input accepted from the client at checkout — intentionally minimal. */
+export interface CreateOrderInput {
+  userId: string;
+  items: { productId: string; quantity: number }[];
+  address: Address;
+}
+
+/** Readable order id, e.g. "ORD-3F9A1C2B". */
+function generateOrderId(): string {
+  return `ORD-${globalThis.crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+}
+
+/**
+ * Create an order from a client cart. The server is authoritative: it
+ * re-fetches every product, recomputes totals (reusing the same cart math),
+ * and snapshots items so the order is immutable. The client's prices/totals
+ * are never trusted.
+ */
+export async function createOrder(input: CreateOrderInput): Promise<Order> {
+  const lines: CartLine[] = [];
+
+  for (const item of input.items) {
+    if (item.quantity <= 0) continue;
+
+    const product = await productRepository.findById(item.productId);
+    if (!product) {
+      throw new Error(`Unknown product: ${item.productId}`);
+    }
+    if (!product.inStock) {
+      throw new Error(`${product.name} is out of stock`);
+    }
+
+    lines.push({ product, quantity: item.quantity });
+  }
+
+  if (lines.length === 0) {
+    throw new Error("Cannot place an order with an empty cart");
+  }
+
+  const summary = computeSummary(lines);
+
+  const items: OrderItem[] = lines.map((l) => ({
+    productId: l.product.id,
+    name: l.product.name,
+    price: l.product.price,
+    size: l.product.size,
+    unit: l.product.unit,
+    quantity: l.quantity,
+  }));
+
+  const order: Order = {
+    id: generateOrderId(),
+    userId: input.userId,
+    items,
+    subtotal: summary.subtotal,
+    deliveryFee: summary.deliveryFee,
+    total: summary.total,
+    status: "pending",
+    address: input.address,
+    createdAt: new Date().toISOString(),
+  };
+
+  return orderRepository.create(order);
+}
+
+/** Fetch a single order by id. */
+export async function getOrder(id: string): Promise<Order | null> {
+  return orderRepository.findById(id);
+}
+
+/** All orders, newest first (used by the admin dashboard in Step 6). */
+export async function listOrders(): Promise<Order[]> {
+  return orderRepository.findAll();
+}

@@ -11,7 +11,17 @@ import {
   type CategoryRepository,
   MockCategoryRepository,
 } from "./category.repository";
+import {
+  type UserRepository,
+  MockUserRepository,
+} from "./user.repository";
+import {
+  type OrderRepository,
+  MockOrderRepository,
+} from "./order.repository";
 
 export const productRepository: ProductRepository = new MockProductRepository();
 export const categoryRepository: CategoryRepository =
   new MockCategoryRepository();
+export const userRepository: UserRepository = new MockUserRepository();
+export const orderRepository: OrderRepository = new MockOrderRepository();
