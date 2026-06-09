@@ -108,7 +108,15 @@ export default async function AccountPage() {
 
         {/* Profile */}
         <section className="h-fit rounded-2xl border border-border/70 bg-card p-5 text-sm shadow-sm">
-          <h2 className="font-bold">Profile</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="font-bold">Profile</h2>
+            <Link
+              href="/account/profile"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              Edit
+            </Link>
+          </div>
           <p className="mt-3 font-medium">{user.name}</p>
           <p className="mt-2 flex items-center gap-2 text-muted-foreground">
             <Mail className="size-4 text-primary" /> {user.email}

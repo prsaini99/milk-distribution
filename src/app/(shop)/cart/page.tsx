@@ -29,6 +29,7 @@ export default function CartPage() {
   }
 
   const remainingForFreeDelivery = FREE_DELIVERY_THRESHOLD - summary.subtotal;
+  const hasOutOfStock = lines.some((l) => !l.product.inStock);
 
   return (
     <div className="space-y-6">
@@ -66,9 +67,14 @@ export default function CartPage() {
                       {formatPack(product.size, product.unit)} ·{" "}
                       {formatCurrency(unit)} each
                     </p>
-                    {isWholesale && (
+                    {isWholesale && product.inStock && (
                       <span className="mt-1 inline-flex rounded-full bg-gold/15 px-2 py-0.5 text-xs font-medium text-foreground/80">
                         Wholesale price applied
+                      </span>
+                    )}
+                    {!product.inStock && (
+                      <span className="mt-1 inline-flex rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+                        Out of stock — remove to continue
                       </span>
                     )}
                   </div>
@@ -138,12 +144,29 @@ export default function CartPage() {
             <span>{formatCurrency(summary.total)}</span>
           </div>
 
-          <Link
-            href="/checkout"
-            className={buttonVariants({ size: "lg", className: "w-full" })}
-          >
-            Proceed to Checkout <ArrowRight className="size-4" />
-          </Link>
+          {hasOutOfStock ? (
+            <div className="space-y-2">
+              <button
+                disabled
+                className={buttonVariants({
+                  size: "lg",
+                  className: "w-full opacity-50",
+                })}
+              >
+                Proceed to Checkout
+              </button>
+              <p className="text-center text-xs text-destructive">
+                Remove out-of-stock items to continue.
+              </p>
+            </div>
+          ) : (
+            <Link
+              href="/checkout"
+              className={buttonVariants({ size: "lg", className: "w-full" })}
+            >
+              Proceed to Checkout <ArrowRight className="size-4" />
+            </Link>
+          )}
         </div>
       </div>
     </div>

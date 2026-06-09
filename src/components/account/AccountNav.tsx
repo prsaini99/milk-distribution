@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Package } from "lucide-react";
+import { LayoutGrid, Package, UserCog } from "lucide-react";
 
 const TABS = [
   { href: "/account", label: "Overview", icon: LayoutGrid, exact: true },
   { href: "/account/orders", label: "My Orders", icon: Package },
+  { href: "/account/profile", label: "Profile", icon: UserCog },
 ];
 
 export function AccountNav() {

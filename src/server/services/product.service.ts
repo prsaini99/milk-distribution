@@ -1,4 +1,4 @@
-import type { Product, Unit } from "@/domain";
+import type { PriceTier, Product, Unit } from "@/domain";
 import {
   productRepository,
   categoryRepository,
@@ -16,6 +16,31 @@ export interface ProductInput {
   size: number;
   unit: Unit;
   inStock: boolean;
+  bulkTiers?: PriceTier[];
+}
+
+/**
+ * Validate, sort and de-dupe wholesale tiers. Returns undefined when there
+ * are none (so the product simply isn't a bulk product).
+ */
+function normalizeTiers(
+  tiers: PriceTier[] | undefined,
+  basePrice: number,
+): PriceTier[] | undefined {
+  if (!tiers || tiers.length === 0) return undefined;
+
+  for (const t of tiers) {
+    if (!Number.isInteger(t.minQty) || t.minQty < 2)
+      throw new Error("Tier quantity must be a whole number of 2 or more");
+    if (!Number.isFinite(t.price) || t.price <= 0)
+      throw new Error("Tier price must be greater than 0");
+    if (t.price >= basePrice)
+      throw new Error("Each tier price must be below the retail price");
+  }
+
+  // De-dupe by minQty (last wins), then sort ascending.
+  const byQty = new Map(tiers.map((t) => [t.minQty, t]));
+  return [...byQty.values()].sort((a, b) => a.minQty - b.minQty);
 }
 
 /**
@@ -74,11 +99,12 @@ export async function createProduct(input: ProductInput): Promise<Product> {
     id: generateProductId(),
     ...input,
     name: input.name.trim(),
+    bulkTiers: normalizeTiers(input.bulkTiers, input.price),
   };
   return productRepository.create(product);
 }
 
-/** Update an existing product (admin). Preserves wholesale tiers. */
+/** Update an existing product (admin), including its wholesale tiers. */
 export async function updateProduct(
   id: string,
   input: ProductInput,
@@ -87,6 +113,7 @@ export async function updateProduct(
   const updated = await productRepository.update(id, {
     ...input,
     name: input.name.trim(),
+    bulkTiers: normalizeTiers(input.bulkTiers, input.price),
   });
   if (!updated) throw new Error("Product not found");
   return updated;

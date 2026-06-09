@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Category, Product, Unit } from "@/domain";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -35,14 +36,35 @@ export function ProductForm({
   const [unit, setUnit] = useState<Unit>(product?.unit ?? "ml");
   const [inStock, setInStock] = useState(product?.inStock ?? true);
   const [imageUrl, setImageUrl] = useState(product?.imageUrl ?? "");
+  const [tiers, setTiers] = useState<{ minQty: string; price: string }[]>(
+    product?.bulkTiers?.map((t) => ({
+      minQty: String(t.minQty),
+      price: String(t.price / 100),
+    })) ?? [],
+  );
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const addTier = () => setTiers((t) => [...t, { minQty: "", price: "" }]);
+  const removeTier = (i: number) =>
+    setTiers((t) => t.filter((_, idx) => idx !== i));
+  const setTier = (i: number, field: "minQty" | "price", value: string) =>
+    setTiers((t) =>
+      t.map((row, idx) => (idx === i ? { ...row, [field]: value } : row)),
+    );
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     setError(null);
+
+    const bulkTiers = tiers
+      .filter((t) => t.minQty !== "" && t.price !== "")
+      .map((t) => ({
+        minQty: parseInt(t.minQty, 10),
+        price: Math.round(parseFloat(t.price) * 100),
+      }));
 
     const payload = {
       name,
@@ -53,6 +75,7 @@ export function ProductForm({
       size: parseFloat(size),
       unit,
       inStock,
+      bulkTiers,
     };
 
     try {
@@ -173,6 +196,63 @@ export function ProductForm({
         />
         <span className="font-medium text-foreground/80">In stock</span>
       </label>
+
+      {/* Wholesale tiers */}
+      <div className="space-y-3 border-t border-border/60 pt-5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-medium text-foreground/80">
+              Wholesale tiers (optional)
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Lower per-pack price at higher quantities. Appears in the Bulk
+              section.
+            </p>
+          </div>
+          <Button type="button" variant="outline" size="sm" onClick={addTier}>
+            <Plus className="size-4" /> Add tier
+          </Button>
+        </div>
+
+        {tiers.length === 0 ? (
+          <p className="text-xs text-muted-foreground">
+            No wholesale tiers — this product is retail-only.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {tiers.map((t, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <input
+                  type="number"
+                  min="2"
+                  value={t.minQty}
+                  onChange={(e) => setTier(i, "minQty", e.target.value)}
+                  placeholder="Min qty"
+                  className={inputClass + " w-28"}
+                />
+                <span className="text-sm text-muted-foreground">packs →</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={t.price}
+                  onChange={(e) => setTier(i, "price", e.target.value)}
+                  placeholder="₹ / pack"
+                  className={inputClass + " w-32"}
+                />
+                <button
+                  type="button"
+                  onClick={() => removeTier(i)}
+                  aria-label="Remove tier"
+                  className="rounded-lg p-2 text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Trash2 className="size-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {error && (
         <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">

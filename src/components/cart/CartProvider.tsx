@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { toast } from "sonner";
 import type { Product } from "@/domain";
 import {
   type CartLine,
@@ -47,6 +48,45 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!hydrated) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
   }, [lines, hydrated]);
+
+  // Reconcile the cart against live products once after hydration: refresh
+  // each line's snapshot (price/stock/tiers) and drop products that no longer
+  // exist. Prevents the cart from showing a stale price the server won't honour.
+  useEffect(() => {
+    if (!hydrated) return;
+    let active = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/products");
+        if (!res.ok || !active) return;
+        const fresh = (await res.json()) as Product[];
+        const byId = new Map(fresh.map((p) => [p.id, p]));
+        if (!active) return;
+
+        let removed = 0;
+        setLines((prev) => {
+          removed = 0;
+          const next: CartLine[] = [];
+          for (const l of prev) {
+            const current = byId.get(l.product.id);
+            if (current) next.push({ product: current, quantity: l.quantity });
+            else removed++;
+          }
+          return next;
+        });
+        if (removed > 0) {
+          toast.info(
+            `${removed} item${removed === 1 ? "" : "s"} removed — no longer available.`,
+          );
+        }
+      } catch {
+        // offline / fetch failed — keep the cart as-is
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [hydrated]);
 
   const addItem = (product: Product, quantity = 1) => {
     setLines((prev) => {
