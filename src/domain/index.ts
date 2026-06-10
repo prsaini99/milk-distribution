@@ -7,3 +7,8 @@ export type { Product, Unit, PriceTier } from "./product";
 export type { Cart, CartItem } from "./cart";
 export type { Order, OrderItem, OrderStatus } from "./order";
 export type { User, Address } from "./user";
+export type {
+  Subscription,
+  SubscriptionFrequency,
+  SubscriptionStatus,
+} from "./subscription";

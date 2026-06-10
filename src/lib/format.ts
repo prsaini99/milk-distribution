@@ -54,6 +54,17 @@ export function formatUnitPrice(
 }
 
 /**
+ * Format an ISO timestamp as a short date. e.g. "11 Jun 2026"
+ */
+export function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+/**
  * Format an ISO timestamp as a short, readable date-time.
  * e.g. "9 Jun 2026, 2:30 pm"
  */

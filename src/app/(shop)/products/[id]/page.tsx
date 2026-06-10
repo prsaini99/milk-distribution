@@ -5,6 +5,7 @@ import { ArrowLeft, Truck, ShieldCheck } from "lucide-react";
 import { getProduct } from "@/server/services/product.service";
 import { formatCurrency, formatPack } from "@/lib/format";
 import { QuantityAddToCart } from "@/components/cart/QuantityAddToCart";
+import { SubscribePanel } from "@/components/subscription/SubscribePanel";
 
 /**
  * Product detail page.
@@ -75,6 +76,8 @@ export default async function ProductDetailPage({
           <div className="pt-1">
             <QuantityAddToCart product={product} />
           </div>
+
+          {product.inStock && <SubscribePanel product={product} />}
 
           {/* Reassurance strip */}
           <div className="mt-2 grid gap-3 border-t border-border/60 pt-5 text-sm sm:grid-cols-2">

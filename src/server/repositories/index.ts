@@ -19,9 +19,15 @@ import {
   type OrderRepository,
   MockOrderRepository,
 } from "./order.repository";
+import {
+  type SubscriptionRepository,
+  MockSubscriptionRepository,
+} from "./subscription.repository";
 
 export const productRepository: ProductRepository = new MockProductRepository();
 export const categoryRepository: CategoryRepository =
   new MockCategoryRepository();
 export const userRepository: UserRepository = new MockUserRepository();
 export const orderRepository: OrderRepository = new MockOrderRepository();
+export const subscriptionRepository: SubscriptionRepository =
+  new MockSubscriptionRepository();

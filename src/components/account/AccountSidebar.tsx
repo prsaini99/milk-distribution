@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Package, Store, User } from "lucide-react";
+import { LayoutGrid, Package, Repeat, Store, User } from "lucide-react";
 
 /**
  * Account navigation — a full-height left rail (anchored, app-shell style like
@@ -13,6 +13,7 @@ import { LayoutGrid, Package, Store, User } from "lucide-react";
 const NAV = [
   { href: "/account", label: "Overview", icon: LayoutGrid, exact: true },
   { href: "/account/orders", label: "My Orders", icon: Package },
+  { href: "/account/subscriptions", label: "Subscriptions", icon: Repeat },
 ];
 
 export function AccountSidebar() {
