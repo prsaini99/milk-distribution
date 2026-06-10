@@ -5,6 +5,7 @@ export interface SubscriptionRepository {
   create(subscription: Subscription): Promise<Subscription>;
   findById(id: string): Promise<Subscription | null>;
   findByUser(userId: string): Promise<Subscription[]>;
+  findAll(): Promise<Subscription[]>;
   update(
     id: string,
     patch: Partial<Subscription>,
@@ -23,6 +24,10 @@ export class MockSubscriptionRepository implements SubscriptionRepository {
 
   async findByUser(userId: string): Promise<Subscription[]> {
     return subscriptionStore.filter((s) => s.userId === userId);
+  }
+
+  async findAll(): Promise<Subscription[]> {
+    return subscriptionStore;
   }
 
   async update(
