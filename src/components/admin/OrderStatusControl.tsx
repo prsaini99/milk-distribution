@@ -54,10 +54,10 @@ export function OrderStatusControl({
               onClick={() => setStatus(status)}
               disabled={active || pending !== null}
               className={
-                "rounded-lg border px-3 py-1.5 text-sm font-medium transition disabled:cursor-not-allowed " +
+                "rounded-lg border px-3 py-1.5 text-sm font-medium shadow-xs transition disabled:cursor-not-allowed " +
                 (active
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground disabled:opacity-50")
+                  ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                  : "border-border bg-card text-muted-foreground hover:-translate-y-0.5 hover:border-primary/40 hover:text-foreground hover:shadow-sm disabled:opacity-50")
               }
             >
               {isPending ? "Saving…" : ORDER_STATUS_LABELS[status]}

@@ -22,7 +22,10 @@ export default async function AccountPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Hello, {user.name}</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Account overview
+        </p>
+        <h1 className="mt-1 text-3xl font-bold">Hello, {user.name}</h1>
         <p className="text-sm text-muted-foreground">
           Welcome back to your account.
         </p>
@@ -49,7 +52,7 @@ export default async function AccountPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Recent orders */}
-        <section className="rounded-2xl border border-border/70 bg-card shadow-sm lg:col-span-2">
+        <section className="surface-card overflow-hidden lg:col-span-2">
           <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
             <h2 className="font-bold">Recent Orders</h2>
             <Link
@@ -78,7 +81,7 @@ export default async function AccountPage() {
                 <li key={o.id}>
                   <Link
                     href={`/order/${o.id}`}
-                    className="flex items-center justify-between gap-4 px-5 py-3.5 transition hover:bg-secondary/50"
+                    className="flex items-center justify-between gap-4 px-5 py-3.5 transition hover:bg-secondary/55"
                   >
                     <div className="min-w-0">
                       <p className="truncate font-mono text-sm font-medium">
@@ -103,7 +106,7 @@ export default async function AccountPage() {
         </section>
 
         {/* Profile */}
-        <section className="h-fit rounded-2xl border border-border/70 bg-card p-5 text-sm shadow-sm">
+        <section className="surface-card h-fit p-5 text-sm">
           <div className="flex items-center justify-between">
             <h2 className="font-bold">Profile</h2>
             <Link
@@ -144,10 +147,10 @@ function StatCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm">
+    <div className="surface-card p-5">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">{label}</span>
-        <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <span className="icon-tile size-9">
           {icon}
         </span>
       </div>

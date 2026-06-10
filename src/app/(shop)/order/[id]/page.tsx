@@ -73,7 +73,7 @@ export default async function OrderPage({
       <OrderTimeline status={order.status} />
 
       {justPlaced && order.status !== "cancelled" && (
-        <div className="flex items-center gap-3 rounded-2xl border border-primary/15 bg-primary/5 p-4 text-sm">
+        <div className="surface-card flex items-center gap-3 border-primary/15 bg-primary/5 p-4 text-sm">
           <Truck className="size-5 shrink-0 text-primary" />
           <span className="text-foreground/80">
             We&apos;ll confirm your order shortly and deliver{" "}
@@ -85,7 +85,7 @@ export default async function OrderPage({
         </div>
       )}
 
-      <div className="rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
+      <div className="surface-card p-6">
         <h2 className="text-lg font-bold">Order details</h2>
 
         <div className="mt-4 divide-y divide-border/60">
@@ -127,7 +127,7 @@ export default async function OrderPage({
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border/70 bg-card p-6 text-sm shadow-sm">
+      <div className="surface-card p-6 text-sm">
         <h2 className="flex items-center gap-2 text-lg font-bold">
           <MapPin className="size-5 text-primary" /> Delivery address
         </h2>

@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Milk } from "lucide-react";
+import { Milk, ShieldCheck, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Demo defaults — keep in sync with .env. Shown for quick demo logins.
@@ -48,9 +48,34 @@ function LoginForm() {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
-      <div className="w-full max-w-sm">
-        <div className="mb-6 flex flex-col items-center text-center">
-          <span className="flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+      <div className="grid w-full max-w-5xl overflow-hidden rounded-[2rem] border border-border/70 bg-card shadow-lg md:grid-cols-[0.95fr_1.05fr]">
+        <div className="relative hidden bg-foreground p-8 text-white md:flex md:flex-col md:justify-between">
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,color-mix(in_oklch,var(--primary)_58%,black),color-mix(in_oklch,var(--foreground)_92%,black))]" />
+          <div className="relative">
+            <span className="flex size-12 items-center justify-center rounded-2xl bg-white/14 text-white shadow-sm backdrop-blur">
+              <Milk className="size-6" />
+            </span>
+            <h2 className="mt-6 text-4xl font-bold leading-tight">
+              Fresh dairy operations, in one place.
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-white/70">
+              Customer storefront, bulk orders, checkout and distributor
+              controls share the same demo login.
+            </p>
+          </div>
+          <div className="relative grid gap-3 text-sm">
+            <span className="inline-flex items-center gap-2 text-white/78">
+              <Store className="size-4 text-gold" /> Retail and wholesale
+            </span>
+            <span className="inline-flex items-center gap-2 text-white/78">
+              <ShieldCheck className="size-4 text-gold" /> Admin-ready demo
+            </span>
+          </div>
+        </div>
+
+        <div className="w-full px-6 py-8 sm:px-10 md:py-12">
+          <div className="mb-6 flex flex-col items-center text-center">
+          <span className="flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md shadow-primary/20">
             <Milk className="size-6" />
           </span>
           <h1 className="mt-4 text-2xl font-bold">Welcome to MilkMart</h1>
@@ -64,7 +89,7 @@ function LoginForm() {
             e.preventDefault();
             submit();
           }}
-          className="space-y-4 rounded-2xl border border-border/70 bg-card p-6 shadow-sm"
+          className="surface-card space-y-4 p-6"
         >
           <label className="flex flex-col gap-1.5 text-sm">
             <span className="font-medium text-foreground/80">Email</span>
@@ -74,7 +99,7 @@ function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="rounded-lg border border-border bg-background px-3 py-2 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="field-control px-3 py-2"
             />
           </label>
 
@@ -86,7 +111,7 @@ function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="rounded-lg border border-border bg-background px-3 py-2 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="field-control px-3 py-2"
             />
           </label>
 
@@ -102,7 +127,7 @@ function LoginForm() {
         </form>
 
         {/* Demo quick-login */}
-        <div className="mt-4 rounded-2xl border border-dashed border-border bg-secondary/30 p-4 text-sm">
+        <div className="mt-4 rounded-2xl border border-dashed border-border bg-secondary/45 p-4 text-sm shadow-[inset_0_1px_0_color-mix(in_oklch,white_74%,transparent)]">
           <p className="font-medium">Demo logins</p>
           <p className="mt-0.5 text-xs text-muted-foreground">
             One-click sign in for the demo.
@@ -132,6 +157,7 @@ function LoginForm() {
             ← Continue browsing
           </Link>
         </p>
+      </div>
       </div>
     </div>
   );

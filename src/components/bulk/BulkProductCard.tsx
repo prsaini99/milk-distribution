@@ -42,14 +42,14 @@ export function BulkProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm">
+    <div className="surface-card flex flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:border-primary/35 hover:shadow-lg">
       <div className="flex gap-4 p-4">
-        <div className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-secondary/50">
+        <div className="relative size-24 shrink-0 overflow-hidden rounded-xl bg-secondary/60 shadow-[inset_0_1px_0_color-mix(in_oklch,white_80%,transparent)]">
           <Image
             src={product.imageUrl}
             alt={product.name}
             fill
-            sizes="80px"
+            sizes="96px"
             className="object-cover"
           />
         </div>
@@ -70,7 +70,7 @@ export function BulkProductCard({ product }: { product: Product }) {
       </div>
 
       {/* Tier ladder */}
-      <div className="border-y border-border/60 bg-secondary/30 px-4 py-3">
+      <div className="border-y border-border/60 bg-secondary/45 px-4 py-3 shadow-[inset_0_1px_0_color-mix(in_oklch,white_70%,transparent)]">
         <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
           Buy more, save more
         </p>
@@ -84,8 +84,8 @@ export function BulkProductCard({ product }: { product: Product }) {
                 className={
                   "flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm transition " +
                   (active
-                    ? "bg-primary/10 font-semibold text-primary"
-                    : "text-foreground/80 hover:bg-secondary")
+                    ? "bg-card font-semibold text-primary shadow-xs"
+                    : "text-foreground/80 hover:bg-card/70")
                 }
               >
                 <span>
@@ -102,7 +102,7 @@ export function BulkProductCard({ product }: { product: Product }) {
       <div className="space-y-3 p-4">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Quantity</span>
-          <div className="flex items-center rounded-lg border border-border">
+          <div className="flex items-center rounded-lg border border-border bg-background/70 shadow-xs">
             <button
               onClick={() => setQty((q) => Math.max(1, q - 1))}
               className="flex size-8 items-center justify-center rounded-l-lg text-muted-foreground transition hover:bg-secondary hover:text-foreground"

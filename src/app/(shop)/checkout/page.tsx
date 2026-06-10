@@ -83,14 +83,22 @@ export default function CheckoutPage() {
 
   return (
     <form onSubmit={handlePlaceOrder} className="space-y-6">
-      <h1 className="text-3xl font-bold">Checkout</h1>
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Secure demo checkout
+        </p>
+        <h1 className="mt-1 text-3xl font-bold">Checkout</h1>
+      </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
           {/* Delivery address */}
-          <section className="rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
+          <section className="surface-card p-6">
             <h2 className="flex items-center gap-2 text-lg font-bold">
-              <MapPin className="size-5 text-primary" /> Delivery Address
+              <span className="icon-tile size-9">
+                <MapPin className="size-5" />
+              </span>
+              Delivery Address
             </h2>
             {user && (
               <p className="mt-1 text-sm text-muted-foreground">
@@ -133,11 +141,14 @@ export default function CheckoutPage() {
           </section>
 
           {/* Payment */}
-          <section className="rounded-2xl border border-border/70 bg-card p-6 shadow-sm">
+          <section className="surface-card p-6">
             <h2 className="flex items-center gap-2 text-lg font-bold">
-              <CreditCard className="size-5 text-primary" /> Payment
+              <span className="icon-tile size-9">
+                <CreditCard className="size-5" />
+              </span>
+              Payment
             </h2>
-            <div className="mt-3 flex items-start gap-2 rounded-lg bg-secondary/60 px-4 py-3 text-sm text-muted-foreground">
+            <div className="mt-4 flex items-start gap-2 rounded-xl border border-border/60 bg-secondary/55 px-4 py-3 text-sm text-muted-foreground shadow-[inset_0_1px_0_color-mix(in_oklch,white_74%,transparent)]">
               <Lock className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>
                 This is a demo — no real payment is taken. Placing the order
@@ -148,7 +159,7 @@ export default function CheckoutPage() {
         </div>
 
         {/* Summary */}
-        <div className="h-fit space-y-4 rounded-2xl border border-border/70 bg-card p-6 shadow-sm lg:sticky lg:top-24">
+        <div className="surface-panel h-fit space-y-4 p-6 lg:sticky lg:top-24">
           <h2 className="text-lg font-bold">Order Summary</h2>
 
           <div className="space-y-2 text-sm">
@@ -236,7 +247,7 @@ function Field({
         required
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="rounded-lg border border-border bg-background px-3 py-2 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+        className="field-control px-3 py-2"
       />
     </label>
   );

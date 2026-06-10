@@ -48,23 +48,28 @@ export function CatalogueBrowser({
   }, [products, query, categoryId, sort]);
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-end justify-between">
-        <h2 className="text-2xl font-bold">Shop our range</h2>
-        <span className="text-sm text-muted-foreground">
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+            Retail catalogue
+          </p>
+          <h2 className="mt-1 text-3xl font-bold">Shop our range</h2>
+        </div>
+        <span className="rounded-full border border-border/70 bg-card px-3 py-1 text-sm font-medium text-muted-foreground shadow-xs">
           {results.length} product{results.length === 1 ? "" : "s"}
         </span>
       </div>
 
       {/* Search + filter + sort */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+      <div className="toolbar-shell flex flex-col gap-3 p-3 sm:flex-row sm:flex-wrap sm:items-center">
         <div className="relative sm:min-w-[220px] sm:flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search products…"
-            className="w-full rounded-xl border border-border bg-card py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className="field-control py-2.5 pl-10 pr-3 text-sm"
           />
         </div>
 
@@ -98,7 +103,7 @@ export function CatalogueBrowser({
             onClick={clearFilters}
             aria-label="Clear filters"
             title="Clear filters"
-            className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground transition hover:border-destructive/40 hover:text-destructive"
+            className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background/70 text-muted-foreground shadow-xs transition hover:border-destructive/40 hover:bg-card hover:text-destructive"
           >
             <X className="size-4" />
           </button>
@@ -110,7 +115,7 @@ export function CatalogueBrowser({
           No products match your search.
         </p>
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
           {results.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
@@ -136,7 +141,7 @@ function Dropdown({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none rounded-xl border border-border bg-card py-2.5 pl-4 pr-10 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+        className="field-control appearance-none py-2.5 pl-4 pr-10 text-sm"
       >
         {children}
       </select>

@@ -11,9 +11,9 @@ import { AddToCartButton } from "@/components/cart/AddToCartButton";
  */
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm transition duration-200 hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
+    <div className="surface-card group flex flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:border-primary/35 hover:shadow-lg">
       <Link href={`/products/${product.id}`} className="flex flex-col">
-        <div className="relative aspect-square overflow-hidden bg-secondary/50">
+        <div className="relative m-2 aspect-square overflow-hidden rounded-xl bg-secondary/60 shadow-[inset_0_1px_0_color-mix(in_oklch,white_80%,transparent)]">
           <Image
             src={product.imageUrl}
             alt={product.name}
@@ -31,7 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        <div className="flex flex-1 flex-col gap-0.5 px-4 pt-3.5 pb-2">
+        <div className="flex flex-1 flex-col gap-0.5 px-4 pt-2.5 pb-2">
           <h3 className="font-semibold leading-tight">{product.name}</h3>
           <p className="text-xs text-muted-foreground">
             {formatPack(product.size, product.unit)}
@@ -39,7 +39,7 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="mt-1 line-clamp-2 min-h-[2.5rem] text-sm text-muted-foreground">
             {product.description}
           </p>
-          <div className="mt-auto flex items-baseline gap-2 pt-2">
+          <div className="mt-auto flex flex-wrap items-baseline gap-x-2 gap-y-1 pt-2">
             <span className="text-lg font-bold text-foreground">
               {formatCurrency(product.price)}
             </span>

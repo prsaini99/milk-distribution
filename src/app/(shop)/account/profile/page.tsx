@@ -9,7 +9,10 @@ export default async function AccountProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Profile</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Account settings
+        </p>
+        <h1 className="mt-1 text-3xl font-bold">Profile</h1>
         <p className="text-sm text-muted-foreground">
           Manage your details and delivery address.
         </p>

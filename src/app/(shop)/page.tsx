@@ -19,16 +19,27 @@ export default async function CataloguePage() {
   return (
     <div className="space-y-12">
       {/* Hero */}
-      <section className="overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-primary/10 via-secondary to-gold/10">
-        <div className="grid items-center gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-2">
-          <div>
-            <p className="inline-flex items-center gap-1.5 rounded-full bg-card px-3 py-1 text-xs font-medium text-primary shadow-sm">
+      <section className="surface-panel relative isolate overflow-hidden bg-foreground text-primary-foreground">
+        <Image
+          src="/catalogue/full-cream-milk.jpg"
+          alt="Fresh dairy bottles ready for delivery"
+          fill
+          sizes="100vw"
+          className="absolute inset-0 -z-20 object-cover"
+          priority
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-foreground/92 via-foreground/68 to-foreground/18" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-28 bg-gradient-to-t from-foreground/55 to-transparent" />
+
+        <div className="grid min-h-[420px] content-end gap-8 px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+          <div className="max-w-2xl">
+            <p className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/14 px-3 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
               <Leaf className="size-3.5" /> Farm-fresh, every single day
             </p>
-            <h1 className="mt-4 text-4xl font-bold leading-[1.1] sm:text-5xl">
+            <h1 className="mt-4 text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
               Pure dairy, delivered to your door.
             </h1>
-            <p className="mt-3 max-w-md text-base text-muted-foreground">
+            <p className="mt-4 max-w-xl text-base leading-7 text-white/78">
               Milk, curd, ghee, paneer and more — sourced fresh from your local
               distributor and delivered daily.
             </p>
@@ -45,46 +56,49 @@ export default async function CataloguePage() {
                 className={buttonVariants({
                   size: "lg",
                   variant: "outline",
+                  className:
+                    "border-white/30 bg-white/12 text-white shadow-none backdrop-blur-md hover:bg-white/20 hover:text-white",
                 })}
               >
                 <Boxes className="size-4" /> Order in bulk
               </Link>
             </div>
 
-            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium">
-              <Chip icon={<Truck className="size-4 text-primary" />}>
+            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-white/84">
+              <Chip icon={<Truck className="size-4 text-gold" />}>
                 Free delivery over ₹499
               </Chip>
-              <Chip icon={<Leaf className="size-4 text-primary" />}>
+              <Chip icon={<Leaf className="size-4 text-gold" />}>
                 100% farm-fresh
               </Chip>
-              <Chip icon={<ShieldCheck className="size-4 text-primary" />}>
+              <Chip icon={<ShieldCheck className="size-4 text-gold" />}>
                 Quality tested
               </Chip>
             </div>
           </div>
 
-          {/* Hero visual */}
-          <div className="relative hidden lg:block">
-            <div className="relative ml-auto aspect-[4/3] w-full max-w-md overflow-hidden rounded-2xl border border-card shadow-lg">
-              <Image
-                src="/catalogue/full-cream-milk.jpg"
-                alt="Fresh dairy"
-                fill
-                sizes="(max-width: 1024px) 0px, 28rem"
-                className="object-cover"
-                priority
-              />
-            </div>
-            <div className="absolute -bottom-4 -left-4 flex items-center gap-2 rounded-xl bg-card px-4 py-3 shadow-lg">
-              <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <Truck className="size-5" />
-              </span>
-              <div className="leading-tight">
-                <p className="text-sm font-semibold">Delivered daily</p>
-                <p className="text-xs text-muted-foreground">
-                  Before 8 AM, fresh
-                </p>
+          <div className="hidden justify-end lg:flex">
+            <div className="max-w-xs rounded-2xl border border-white/18 bg-white/14 p-4 text-white shadow-lg backdrop-blur-xl">
+              <div className="flex items-center gap-3">
+                <span className="flex size-10 items-center justify-center rounded-xl bg-white/18 text-gold">
+                  <Truck className="size-5" />
+                </span>
+                <div className="leading-tight">
+                  <p className="text-sm font-semibold">Delivered daily</p>
+                  <p className="text-xs text-white/68">
+                    Before 8 AM, fresh
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-3 border-t border-white/15 pt-4 text-sm">
+                <div>
+                  <p className="text-2xl font-bold">8 AM</p>
+                  <p className="text-xs text-white/64">morning slots</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">₹499</p>
+                  <p className="text-xs text-white/64">free delivery</p>
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +121,7 @@ function Chip({
   children: React.ReactNode;
 }) {
   return (
-    <span className="inline-flex items-center gap-2 text-foreground/80">
+    <span className="inline-flex items-center gap-2 text-current">
       {icon}
       {children}
     </span>

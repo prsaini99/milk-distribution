@@ -17,9 +17,9 @@ export function AdminSidebar() {
     exact ? pathname === href : pathname.startsWith(href);
 
   return (
-    <aside className="flex w-full shrink-0 flex-col gap-1 border-b border-border/60 bg-card p-3 md:h-screen md:w-60 md:border-b-0 md:border-r">
+    <aside className="flex w-full shrink-0 flex-col gap-1 border-b border-border/70 bg-card/92 p-3 shadow-sm md:h-screen md:w-64 md:border-b-0 md:border-r md:shadow-[8px_0_30px_-28px_oklch(0.25_0.02_90_/_0.5)]">
       <div className="flex items-center gap-2.5 px-2 py-3">
-        <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+        <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/20">
           <Store className="size-5" />
         </span>
         <div className="leading-none">
@@ -36,10 +36,10 @@ export function AdminSidebar() {
               key={href}
               href={href}
               className={
-                "flex flex-1 items-center gap-2.5 rounded-lg px-3 py-2 text-sm font-medium transition md:flex-none " +
+                "flex flex-1 items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition md:flex-none " +
                 (active
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground")
+                  ? "bg-primary/10 text-primary shadow-[inset_3px_0_0_var(--primary)]"
+                  : "text-muted-foreground hover:bg-secondary/75 hover:text-foreground")
               }
             >
               <Icon className="size-4" />
@@ -51,7 +51,7 @@ export function AdminSidebar() {
 
       <Link
         href="/"
-        className="mt-auto hidden items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:bg-secondary hover:text-foreground md:flex"
+        className="mt-auto hidden items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-muted-foreground transition hover:bg-secondary/75 hover:text-foreground md:flex"
       >
         <Store className="size-4" /> View storefront
       </Link>

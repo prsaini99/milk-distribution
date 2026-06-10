@@ -34,14 +34,14 @@ export function AccountOrdersList({ orders }: { orders: Order[] }) {
   return (
     <div className="space-y-4">
       {/* Controls */}
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="toolbar-shell flex flex-col gap-3 p-3 sm:flex-row">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by order id or product…"
-            className="w-full rounded-xl border border-border bg-card py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+            className="field-control py-2.5 pl-10 pr-3 text-sm"
           />
         </div>
 
@@ -50,7 +50,7 @@ export function AccountOrdersList({ orders }: { orders: Order[] }) {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as "all" | OrderStatus)}
-              className="w-full appearance-none rounded-xl border border-border bg-card py-2.5 pl-4 pr-10 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="field-control appearance-none py-2.5 pl-4 pr-10 text-sm"
             >
               <option value="all">All statuses</option>
               {ORDER_STATUS_FLOW.map((s) => (
@@ -68,7 +68,7 @@ export function AccountOrdersList({ orders }: { orders: Order[] }) {
               onClick={clearFilters}
               aria-label="Clear filters"
               title="Clear filters"
-              className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground transition hover:border-destructive/40 hover:text-destructive"
+              className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background/70 text-muted-foreground shadow-xs transition hover:border-destructive/40 hover:bg-card hover:text-destructive"
             >
               <X className="size-4" />
             </button>
@@ -77,7 +77,7 @@ export function AccountOrdersList({ orders }: { orders: Order[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-border/70 bg-card p-10 text-center text-sm text-muted-foreground shadow-sm">
+        <div className="surface-card p-10 text-center text-sm text-muted-foreground">
           No orders match your filters.
         </div>
       ) : (
@@ -86,7 +86,7 @@ export function AccountOrdersList({ orders }: { orders: Order[] }) {
             <Link
               key={o.id}
               href={`/order/${o.id}`}
-              className="flex items-center gap-4 rounded-2xl border border-border/70 bg-card p-4 shadow-sm transition hover:border-primary/30 hover:shadow-md"
+              className="surface-card flex items-center gap-4 p-4 transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md"
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-3">

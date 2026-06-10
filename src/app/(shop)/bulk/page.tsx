@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Boxes, TrendingDown, FileText, CalendarClock } from "lucide-react";
 import { listBulkProducts } from "@/server/services/product.service";
 import { listCategories } from "@/server/services/category.service";
@@ -20,31 +21,41 @@ export default async function BulkPage() {
   return (
     <div className="space-y-10">
       {/* Hero */}
-      <section className="overflow-hidden rounded-3xl border border-primary/15 bg-gradient-to-br from-primary/10 via-secondary to-gold/10 px-6 py-10 sm:px-10 sm:py-12">
-        <p className="inline-flex items-center gap-1.5 rounded-full bg-card px-3 py-1 text-xs font-medium text-primary shadow-sm">
+      <section className="surface-panel relative isolate overflow-hidden bg-foreground px-6 py-10 text-white sm:px-10 sm:py-12">
+        <Image
+          src="/catalogue/table-butter.jpg"
+          alt="Bulk dairy products packed for business supply"
+          fill
+          sizes="100vw"
+          className="absolute inset-0 -z-20 object-cover"
+          priority
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-foreground/92 via-foreground/68 to-foreground/22" />
+
+        <p className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/14 px-3 py-1 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
           <Boxes className="size-3.5" /> Wholesale &amp; Bulk
         </p>
-        <h1 className="mt-4 max-w-2xl text-4xl font-bold leading-[1.1] sm:text-5xl">
+        <h1 className="mt-4 max-w-2xl text-4xl font-bold leading-[1.05] sm:text-5xl">
           Stock up for your business at wholesale rates.
         </h1>
-        <p className="mt-3 max-w-xl text-base text-muted-foreground">
+        <p className="mt-4 max-w-xl text-base leading-7 text-white/78">
           For kirana stores, cafés, restaurants and hotels — the more you
           order, the more you save. Same-day dispatch, every day.
         </p>
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+        <div className="mt-8 grid gap-5 border-t border-white/15 pt-6 sm:grid-cols-3">
           <Benefit
-            icon={<TrendingDown className="size-4 text-primary" />}
+            icon={<TrendingDown className="size-4 text-gold" />}
             title="Tiered pricing"
             text="Unit price drops as quantity grows."
           />
           <Benefit
-            icon={<FileText className="size-4 text-primary" />}
+            icon={<FileText className="size-4 text-gold" />}
             title="GST invoicing"
             text="Proper tax invoices for your business."
           />
           <Benefit
-            icon={<CalendarClock className="size-4 text-primary" />}
+            icon={<CalendarClock className="size-4 text-gold" />}
             title="Scheduled delivery"
             text="Reliable daily or weekly supply."
           />
@@ -69,12 +80,12 @@ function Benefit({
   text: string;
 }) {
   return (
-    <div className="rounded-xl border border-border/60 bg-card/70 p-4">
+    <div className="border-l border-white/25 pl-4">
       <div className="flex items-center gap-2 font-medium">
         {icon}
         {title}
       </div>
-      <p className="mt-1 text-sm text-muted-foreground">{text}</p>
+      <p className="mt-1 text-sm text-white/68">{text}</p>
     </div>
   );
 }

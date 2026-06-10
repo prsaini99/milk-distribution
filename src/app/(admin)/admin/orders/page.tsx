@@ -9,14 +9,17 @@ export default async function AdminOrdersPage() {
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-2xl font-bold">Orders</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Fulfillment queue
+        </p>
+        <h1 className="mt-1 text-2xl font-bold">Orders</h1>
         <p className="text-sm text-muted-foreground">
           {orders.length} order{orders.length === 1 ? "" : "s"} total
         </p>
       </header>
 
       {orders.length === 0 ? (
-        <div className="rounded-2xl border border-border/70 bg-card p-10 text-center text-sm text-muted-foreground shadow-sm">
+        <div className="surface-card p-10 text-center text-sm text-muted-foreground">
           No orders yet. Place one from the storefront to see it here.
         </div>
       ) : (

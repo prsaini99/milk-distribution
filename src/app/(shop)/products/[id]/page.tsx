@@ -28,8 +28,9 @@ export default async function ProductDetailPage({
         <ArrowLeft className="size-4" /> Back to shop
       </Link>
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <div className="relative aspect-square overflow-hidden rounded-3xl border border-border/70 bg-secondary/50 shadow-sm">
+      <div className="grid gap-8 md:grid-cols-[1fr_0.95fr]">
+        <div className="surface-panel relative aspect-square overflow-hidden bg-secondary/60 p-2">
+          <div className="relative h-full overflow-hidden rounded-2xl">
           <Image
             src={product.imageUrl}
             alt={product.name}
@@ -38,9 +39,10 @@ export default async function ProductDetailPage({
             className="object-cover"
             priority
           />
+          </div>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <div className="surface-card flex flex-col gap-5 p-6 md:p-8">
           <div>
             {product.inStock ? (
               <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
@@ -57,7 +59,14 @@ export default async function ProductDetailPage({
             </p>
           </div>
 
-          <p className="text-3xl font-bold">{formatCurrency(product.price)}</p>
+          <div className="rounded-2xl border border-border/60 bg-secondary/45 px-4 py-3 shadow-[inset_0_1px_0_color-mix(in_oklch,white_75%,transparent)]">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Price
+            </p>
+            <p className="mt-1 text-3xl font-bold">
+              {formatCurrency(product.price)}
+            </p>
+          </div>
 
           <p className="leading-relaxed text-foreground/80">
             {product.description}
@@ -69,10 +78,10 @@ export default async function ProductDetailPage({
 
           {/* Reassurance strip */}
           <div className="mt-2 grid gap-3 border-t border-border/60 pt-5 text-sm sm:grid-cols-2">
-            <span className="inline-flex items-center gap-2 text-muted-foreground">
+            <span className="inline-flex items-center gap-2 rounded-xl bg-secondary/45 px-3 py-2 text-muted-foreground">
               <Truck className="size-4 text-primary" /> Free delivery over ₹499
             </span>
-            <span className="inline-flex items-center gap-2 text-muted-foreground">
+            <span className="inline-flex items-center gap-2 rounded-xl bg-secondary/45 px-3 py-2 text-muted-foreground">
               <ShieldCheck className="size-4 text-primary" /> Quality tested
             </span>
           </div>

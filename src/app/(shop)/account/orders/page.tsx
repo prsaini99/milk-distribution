@@ -13,14 +13,17 @@ export default async function AccountOrdersPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">My Orders</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Purchase history
+        </p>
+        <h1 className="mt-1 text-3xl font-bold">My Orders</h1>
         <p className="text-sm text-muted-foreground">
           {orders.length} order{orders.length === 1 ? "" : "s"}
         </p>
       </div>
 
       {orders.length === 0 ? (
-        <div className="rounded-2xl border border-border/70 bg-card p-10 text-center shadow-sm">
+        <div className="surface-card p-10 text-center">
           <p className="text-muted-foreground">
             You haven&apos;t placed any orders yet.
           </p>

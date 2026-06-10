@@ -29,11 +29,20 @@ export default function CartPage() {
   }
 
   const remainingForFreeDelivery = FREE_DELIVERY_THRESHOLD - summary.subtotal;
+  const freeDeliveryProgress = Math.min(
+    100,
+    Math.round((summary.subtotal / FREE_DELIVERY_THRESHOLD) * 100),
+  );
   const hasOutOfStock = lines.some((l) => !l.product.inStock);
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Your Cart</h1>
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Checkout bag
+        </p>
+        <h1 className="mt-1 text-3xl font-bold">Your Cart</h1>
+      </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Line items */}
@@ -45,9 +54,9 @@ export default function CartPage() {
             return (
             <div
               key={product.id}
-              className="flex gap-4 rounded-2xl border border-border/70 bg-card p-4 shadow-sm"
+              className="surface-card flex gap-4 p-4 transition hover:border-primary/30 hover:shadow-md"
             >
-              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-secondary/50">
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-secondary/60 shadow-[inset_0_1px_0_color-mix(in_oklch,white_80%,transparent)]">
                 <Image
                   src={product.imageUrl}
                   alt={product.name}
@@ -82,7 +91,7 @@ export default function CartPage() {
                 </div>
 
                 <div className="mt-auto flex items-center justify-between pt-2">
-                  <div className="flex items-center rounded-lg border border-border">
+                  <div className="flex items-center rounded-lg border border-border bg-background/70 shadow-xs">
                     <button
                       onClick={() => updateQuantity(product.id, quantity - 1)}
                       className="flex size-8 items-center justify-center rounded-l-lg text-muted-foreground transition hover:bg-secondary hover:text-foreground"
@@ -116,15 +125,25 @@ export default function CartPage() {
         </div>
 
         {/* Summary */}
-        <div className="h-fit space-y-4 rounded-2xl border border-border/70 bg-card p-6 shadow-sm lg:sticky lg:top-24">
+        <div className="surface-panel h-fit space-y-4 p-6 lg:sticky lg:top-24">
           <h2 className="text-lg font-bold">Order Summary</h2>
 
-          {remainingForFreeDelivery > 0 && (
-            <p className="rounded-lg bg-gold/10 px-3 py-2 text-xs font-medium text-foreground/80">
-              Add {formatCurrency(remainingForFreeDelivery)} more for{" "}
-              <span className="font-semibold">free delivery</span> 🎉
-            </p>
-          )}
+          <div className="rounded-xl border border-border/60 bg-secondary/45 p-3">
+            <div className="flex justify-between gap-3 text-xs font-medium text-foreground/80">
+              <span>
+                {remainingForFreeDelivery > 0
+                  ? `Add ${formatCurrency(remainingForFreeDelivery)} for free delivery`
+                  : "Free delivery unlocked"}
+              </span>
+              <span>{freeDeliveryProgress}%</span>
+            </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-border/60">
+              <div
+                className="h-full rounded-full bg-primary transition-all"
+                style={{ width: `${freeDeliveryProgress}%` }}
+              />
+            </div>
+          </div>
 
           <div className="space-y-2 text-sm">
             <Row label="Subtotal" value={formatCurrency(summary.subtotal)} />

@@ -20,7 +20,10 @@ export default async function AdminOverviewPage() {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="text-2xl font-bold">Overview</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+          Operations
+        </p>
+        <h1 className="mt-1 text-2xl font-bold">Overview</h1>
         <p className="text-sm text-muted-foreground">
           A snapshot of your store&apos;s activity.
         </p>
@@ -51,8 +54,8 @@ export default async function AdminOverviewPage() {
       </div>
 
       {/* Recent orders */}
-      <section className="rounded-2xl border border-border/70 bg-card shadow-sm">
-        <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
+      <section className="surface-card overflow-hidden">
+        <div className="flex items-center justify-between border-b border-border/60 bg-secondary/30 px-5 py-4">
           <h2 className="font-bold">Recent Orders</h2>
           <Link
             href="/admin/orders"
@@ -72,7 +75,7 @@ export default async function AdminOverviewPage() {
               <li key={o.id}>
                 <Link
                   href={`/admin/orders/${o.id}`}
-                  className="flex items-center justify-between gap-4 px-5 py-3.5 transition hover:bg-secondary/50"
+                  className="flex items-center justify-between gap-4 px-5 py-3.5 transition hover:bg-secondary/55"
                 >
                   <div className="min-w-0">
                     <p className="truncate font-mono text-sm font-medium">
@@ -109,10 +112,10 @@ function StatCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm">
+    <div className="surface-card p-5">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">{label}</span>
-        <span className="flex size-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <span className="icon-tile size-9">
           {icon}
         </span>
       </div>

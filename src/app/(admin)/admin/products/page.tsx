@@ -22,7 +22,10 @@ export default async function AdminProductsPage() {
     <div className="space-y-6">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">Products</h1>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+            Catalogue control
+          </p>
+          <h1 className="mt-1 text-2xl font-bold">Products</h1>
           <p className="text-sm text-muted-foreground">
             {products.length} products in the catalogue
           </p>
@@ -35,8 +38,8 @@ export default async function AdminProductsPage() {
         </Link>
       </header>
 
-      <div className="overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm">
-        <div className="hidden grid-cols-[2fr_1fr_0.8fr_0.8fr_0.8fr_auto] gap-4 border-b border-border/60 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground md:grid">
+      <div className="surface-card overflow-hidden">
+        <div className="hidden grid-cols-[2fr_1fr_0.8fr_0.8fr_0.8fr_auto] gap-4 border-b border-border/60 bg-secondary/35 px-5 py-3 text-xs font-medium uppercase tracking-wide text-muted-foreground md:grid">
           <span>Product</span>
           <span>Category</span>
           <span>Pack</span>
@@ -49,10 +52,10 @@ export default async function AdminProductsPage() {
           {products.map((p) => (
             <li
               key={p.id}
-              className="grid grid-cols-2 items-center gap-3 px-5 py-3.5 md:grid-cols-[2fr_1fr_0.8fr_0.8fr_0.8fr_auto] md:gap-4"
+              className="grid grid-cols-2 items-center gap-3 px-5 py-3.5 transition hover:bg-secondary/55 md:grid-cols-[2fr_1fr_0.8fr_0.8fr_0.8fr_auto] md:gap-4"
             >
               <div className="flex items-center gap-3">
-                <div className="relative size-11 shrink-0 overflow-hidden rounded-lg bg-secondary/50">
+                <div className="relative size-11 shrink-0 overflow-hidden rounded-lg bg-secondary/60 shadow-[inset_0_1px_0_color-mix(in_oklch,white_80%,transparent)]">
                   <Image
                     src={p.imageUrl}
                     alt={p.name}

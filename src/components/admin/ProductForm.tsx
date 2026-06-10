@@ -102,7 +102,7 @@ export function ProductForm({
   return (
     <form
       onSubmit={submit}
-      className="max-w-2xl space-y-5 rounded-2xl border border-border/70 bg-card p-6 shadow-sm"
+      className="surface-card max-w-2xl space-y-5 p-6"
     >
       <Field label="Product name">
         <input
@@ -198,7 +198,7 @@ export function ProductForm({
       </label>
 
       {/* Wholesale tiers */}
-      <div className="space-y-3 border-t border-border/60 pt-5">
+      <div className="space-y-3 rounded-2xl border border-border/60 bg-secondary/35 p-4 shadow-[inset_0_1px_0_color-mix(in_oklch,white_74%,transparent)]">
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-sm font-medium text-foreground/80">
@@ -275,8 +275,7 @@ export function ProductForm({
   );
 }
 
-const inputClass =
-  "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20";
+const inputClass = "field-control px-3 py-2 text-sm";
 
 function Field({
   label,

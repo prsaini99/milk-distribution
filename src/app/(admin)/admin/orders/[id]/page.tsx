@@ -38,14 +38,14 @@ export default async function AdminOrderDetailPage({
       </header>
 
       {/* Status control */}
-      <section className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm">
+      <section className="surface-card p-5">
         <h2 className="mb-3 font-bold">Update Status</h2>
         <OrderStatusControl orderId={order.id} currentStatus={order.status} />
       </section>
 
       <div className="grid gap-6 md:grid-cols-3">
         {/* Items */}
-        <section className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm md:col-span-2">
+        <section className="surface-card p-5 md:col-span-2">
           <h2 className="font-bold">Items</h2>
           <div className="mt-3 divide-y divide-border/60">
             {order.items.map((item) => (
@@ -88,7 +88,7 @@ export default async function AdminOrderDetailPage({
 
         {/* Customer + Delivery */}
         <div className="h-fit space-y-6">
-          <section className="rounded-2xl border border-border/70 bg-card p-5 text-sm shadow-sm">
+          <section className="surface-card p-5 text-sm">
             <h2 className="flex items-center gap-2 font-bold">
               <User className="size-4 text-primary" /> Customer
             </h2>
@@ -96,7 +96,7 @@ export default async function AdminOrderDetailPage({
             <p className="text-muted-foreground">{order.customer.email}</p>
           </section>
 
-          <section className="rounded-2xl border border-border/70 bg-card p-5 text-sm shadow-sm">
+          <section className="surface-card p-5 text-sm">
             <h2 className="flex items-center gap-2 font-bold">
               <MapPin className="size-4 text-primary" /> Delivery
             </h2>

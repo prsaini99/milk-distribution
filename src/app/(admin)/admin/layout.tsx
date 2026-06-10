@@ -14,11 +14,11 @@ export default async function AdminLayout({
   const session = await getSession();
 
   return (
-    <div className="flex min-h-full flex-col md:flex-row">
+    <div className="flex min-h-full flex-col bg-background/70 md:flex-row">
       <AdminSidebar />
 
       <div className="flex flex-1 flex-col">
-        <header className="sticky top-0 z-10 border-b border-border/60 bg-card/80 backdrop-blur">
+        <header className="sticky top-0 z-10 border-b border-border/70 bg-card/88 shadow-sm backdrop-blur-xl">
           <div className="flex items-center justify-between px-4 py-3 md:px-8">
             <div className="flex items-center gap-2 text-sm">
               <ShieldCheck className="size-4 text-primary" />
@@ -29,7 +29,7 @@ export default async function AdminLayout({
         </header>
 
         <main className="flex-1 px-4 py-6 md:px-8 md:py-8">
-          <div className="mx-auto max-w-5xl">{children}</div>
+          <div className="mx-auto max-w-6xl">{children}</div>
         </main>
       </div>
     </div>

@@ -13,7 +13,7 @@ const STEPS: { status: OrderStatus; label: string; icon: typeof Clock }[] = [
 export function OrderTimeline({ status }: { status: OrderStatus }) {
   if (status === "cancelled") {
     return (
-      <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-5 shadow-sm">
+      <div className="surface-card border-destructive/20 bg-destructive/5 p-5">
         <div className="flex items-center gap-3">
           <XCircle className="size-6 text-destructive" />
           <div>
@@ -30,7 +30,7 @@ export function OrderTimeline({ status }: { status: OrderStatus }) {
   const currentIndex = STEPS.findIndex((s) => s.status === status);
 
   return (
-    <div className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm">
+    <div className="surface-card p-5">
       <h2 className="mb-4 font-bold">Order status</h2>
       <div className="flex items-start">
         {STEPS.map((step, i) => {
@@ -51,7 +51,7 @@ export function OrderTimeline({ status }: { status: OrderStatus }) {
                   className={
                     "flex size-9 items-center justify-center rounded-full transition " +
                     (done
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-primary text-primary-foreground shadow-sm"
                       : "bg-secondary text-muted-foreground")
                   }
                 >

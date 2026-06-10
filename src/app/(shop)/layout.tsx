@@ -19,10 +19,10 @@ export default async function ShopLayout({
     session?.role === "user" ? (await getCurrentUser()).name : "";
   return (
     <div className="flex min-h-full flex-col">
-      <header className="sticky top-0 z-20 border-b border-border/60 bg-background/80 backdrop-blur">
-        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 py-3.5">
+      <header className="sticky top-0 z-20 border-b border-border/70 bg-card/88 shadow-sm backdrop-blur-xl">
+        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-3.5">
           <Link href="/" className="flex items-center gap-2.5 justify-self-start">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/20">
               <Milk className="size-5" />
             </span>
             <span className="flex flex-col leading-none">
@@ -69,11 +69,11 @@ export default async function ShopLayout({
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
+        <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:py-10">
         {children}
       </main>
 
-      <footer className="mt-12 border-t border-border/60 bg-secondary/40">
+      <footer className="mt-12 border-t border-border/70 bg-card/70 shadow-[inset_0_1px_0_color-mix(in_oklch,white_80%,transparent)]">
         <div className="mx-auto max-w-7xl px-4 py-10">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {/* Brand */}
