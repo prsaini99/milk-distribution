@@ -48,6 +48,8 @@ export interface Order {
   items: OrderItem[];
 
   subtotal: number; // paise
+  discount?: number; // paise (from a coupon)
+  couponCode?: string;
   deliveryFee: number; // paise
   total: number; // paise
 

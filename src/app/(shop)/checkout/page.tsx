@@ -15,7 +15,7 @@ const EMPTY_ADDRESS: Address = { line1: "", city: "", pincode: "", phone: "" };
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { lines, summary, clear } = useCart();
+  const { lines, summary, appliedCoupon, clear } = useCart();
 
   const [user, setUser] = useState<User | null>(null);
   const [address, setAddress] = useState<Address>(EMPTY_ADDRESS);
@@ -53,6 +53,7 @@ export default function CheckoutPage() {
             quantity: l.quantity,
           })),
           address,
+          couponCode: appliedCoupon?.code,
         }),
       });
 
@@ -181,6 +182,16 @@ export default function CheckoutPage() {
               <span className="text-muted-foreground">Subtotal</span>
               <span>{formatCurrency(summary.subtotal)}</span>
             </div>
+            {summary.discount > 0 && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">
+                  Discount{appliedCoupon ? ` (${appliedCoupon.code})` : ""}
+                </span>
+                <span className="font-semibold text-primary">
+                  − {formatCurrency(summary.discount)}
+                </span>
+              </div>
+            )}
             <div className="flex justify-between">
               <span className="text-muted-foreground">Delivery</span>
               <span

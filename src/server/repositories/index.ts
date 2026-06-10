@@ -23,6 +23,10 @@ import {
   type SubscriptionRepository,
   MockSubscriptionRepository,
 } from "./subscription.repository";
+import {
+  type CouponRepository,
+  MockCouponRepository,
+} from "./coupon.repository";
 
 export const productRepository: ProductRepository = new MockProductRepository();
 export const categoryRepository: CategoryRepository =
@@ -31,3 +35,4 @@ export const userRepository: UserRepository = new MockUserRepository();
 export const orderRepository: OrderRepository = new MockOrderRepository();
 export const subscriptionRepository: SubscriptionRepository =
   new MockSubscriptionRepository();
+export const couponRepository: CouponRepository = new MockCouponRepository();

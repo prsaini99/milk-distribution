@@ -12,3 +12,4 @@ export type {
   SubscriptionFrequency,
   SubscriptionStatus,
 } from "./subscription";
+export type { Coupon, CouponType } from "./coupon";

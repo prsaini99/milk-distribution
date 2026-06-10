@@ -112,6 +112,16 @@ export default async function OrderPage({
             <span className="text-muted-foreground">Subtotal</span>
             <span>{formatCurrency(order.subtotal)}</span>
           </div>
+          {(order.discount ?? 0) > 0 && (
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">
+                Discount{order.couponCode ? ` (${order.couponCode})` : ""}
+              </span>
+              <span className="font-semibold text-primary">
+                − {formatCurrency(order.discount ?? 0)}
+              </span>
+            </div>
+          )}
           <div className="flex justify-between">
             <span className="text-muted-foreground">Delivery</span>
             <span>

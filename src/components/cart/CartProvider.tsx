@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
-import type { Product } from "@/domain";
+import type { Coupon, Product } from "@/domain";
 import {
   type CartLine,
   type CartSummary,
@@ -16,13 +16,17 @@ import {
 } from "@/lib/cart";
 
 const STORAGE_KEY = "milkmart_cart";
+const COUPON_KEY = "milkmart_coupon";
 
 interface CartContextValue {
   lines: CartLine[];
   summary: CartSummary;
+  appliedCoupon: Coupon | null;
   addItem: (product: Product, quantity?: number) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   removeItem: (productId: string) => void;
+  applyCoupon: (code: string) => Promise<{ ok: boolean; error?: string }>;
+  removeCoupon: () => void;
   clear: () => void;
 }
 
@@ -30,15 +34,18 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
+  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
-  // Load persisted cart once on mount (client only).
+  // Load persisted cart + coupon once on mount (client only).
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setLines(JSON.parse(raw) as CartLine[]);
+      const rawCoupon = localStorage.getItem(COUPON_KEY);
+      if (rawCoupon) setAppliedCoupon(JSON.parse(rawCoupon) as Coupon);
     } catch {
-      // Corrupt/unavailable storage — start with an empty cart.
+      // Corrupt/unavailable storage — start fresh.
     }
     setHydrated(true);
   }, []);
@@ -48,6 +55,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!hydrated) return;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(lines));
   }, [lines, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    if (appliedCoupon) {
+      localStorage.setItem(COUPON_KEY, JSON.stringify(appliedCoupon));
+    } else {
+      localStorage.removeItem(COUPON_KEY);
+    }
+  }, [appliedCoupon, hydrated]);
 
   // Reconcile the cart against live products once after hydration: refresh
   // each line's snapshot (price/stock/tiers) and drop products that no longer
@@ -115,16 +131,46 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setLines((prev) => prev.filter((l) => l.product.id !== productId));
   };
 
-  const clear = () => setLines([]);
+  const clear = () => {
+    setLines([]);
+    setAppliedCoupon(null);
+  };
 
-  const summary = useMemo(() => computeSummary(lines), [lines]);
+  const applyCoupon = async (
+    code: string,
+  ): Promise<{ ok: boolean; error?: string }> => {
+    const subtotal = computeSummary(lines).subtotal;
+    try {
+      const res = await fetch("/api/coupons/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, subtotal }),
+      });
+      const data = await res.json();
+      if (!res.ok) return { ok: false, error: data.error ?? "Invalid coupon" };
+      setAppliedCoupon(data.coupon as Coupon);
+      return { ok: true };
+    } catch {
+      return { ok: false, error: "Could not validate coupon" };
+    }
+  };
+
+  const removeCoupon = () => setAppliedCoupon(null);
+
+  const summary = useMemo(
+    () => computeSummary(lines, appliedCoupon),
+    [lines, appliedCoupon],
+  );
 
   const value: CartContextValue = {
     lines,
     summary,
+    appliedCoupon,
     addItem,
     updateQuantity,
     removeItem,
+    applyCoupon,
+    removeCoupon,
     clear,
   };
 

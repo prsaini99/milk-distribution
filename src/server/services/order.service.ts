@@ -1,8 +1,9 @@
-import type { Address, Order, OrderItem, OrderStatus } from "@/domain";
+import type { Address, Coupon, Order, OrderItem, OrderStatus } from "@/domain";
 import { productRepository, orderRepository } from "@/server/repositories";
 import { type CartLine, computeSummary } from "@/lib/cart";
 import { unitPriceFor } from "@/lib/pricing";
 import { ORDER_STATUS_LABELS } from "@/lib/order";
+import { validateCoupon } from "./coupon.service";
 
 /** Input accepted from the client at checkout — intentionally minimal. */
 export interface CreateOrderInput {
@@ -10,6 +11,7 @@ export interface CreateOrderInput {
   customer: { name: string; email: string };
   items: { productId: string; quantity: number }[];
   address: Address;
+  couponCode?: string;
 }
 
 /** Readable order id, e.g. "ORD-3F9A1C2B". */
@@ -44,7 +46,14 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
     throw new Error("Cannot place an order with an empty cart");
   }
 
-  const summary = computeSummary(lines);
+  // Re-validate the coupon server-side against the authoritative subtotal.
+  let coupon: Coupon | null = null;
+  if (input.couponCode) {
+    const subtotal = computeSummary(lines).subtotal;
+    coupon = (await validateCoupon(input.couponCode, subtotal)).coupon;
+  }
+
+  const summary = computeSummary(lines, coupon);
 
   const items: OrderItem[] = lines.map((l) => ({
     productId: l.product.id,
@@ -62,6 +71,8 @@ export async function createOrder(input: CreateOrderInput): Promise<Order> {
     customer: input.customer,
     items,
     subtotal: summary.subtotal,
+    discount: summary.discount,
+    couponCode: coupon?.code,
     deliveryFee: summary.deliveryFee,
     total: summary.total,
     status: "pending",

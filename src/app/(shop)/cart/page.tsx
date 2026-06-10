@@ -7,9 +7,11 @@ import { useCart } from "@/components/cart/CartProvider";
 import { buttonVariants } from "@/components/ui/button";
 import { formatCurrency, formatPack } from "@/lib/format";
 import { FREE_DELIVERY_THRESHOLD, lineTotal, lineUnitPrice } from "@/lib/cart";
+import { CouponInput } from "@/components/cart/CouponInput";
 
 export default function CartPage() {
-  const { lines, summary, updateQuantity, removeItem } = useCart();
+  const { lines, summary, appliedCoupon, updateQuantity, removeItem } =
+    useCart();
 
   if (lines.length === 0) {
     return (
@@ -145,8 +147,18 @@ export default function CartPage() {
             </div>
           </div>
 
+          {/* Coupon */}
+          <CouponInput />
+
           <div className="space-y-2 text-sm">
             <Row label="Subtotal" value={formatCurrency(summary.subtotal)} />
+            {summary.discount > 0 && (
+              <Row
+                label={`Discount${appliedCoupon ? ` (${appliedCoupon.code})` : ""}`}
+                value={`− ${formatCurrency(summary.discount)}`}
+                highlight
+              />
+            )}
             <Row
               label="Delivery"
               value={

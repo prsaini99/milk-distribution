@@ -1,5 +1,6 @@
-import type { Product } from "@/domain";
+import type { Coupon, Product } from "@/domain";
 import { unitPriceFor } from "./pricing";
+import { computeDiscount } from "./coupon";
 
 /**
  * A cart line as held on the client: a product snapshot plus quantity.
@@ -27,6 +28,7 @@ export const DELIVERY_FEE = 2500; // ₹25
 
 export interface CartSummary {
   subtotal: number; // paise
+  discount: number; // paise
   deliveryFee: number; // paise
   total: number; // paise
   count: number; // total quantity across lines
@@ -34,13 +36,25 @@ export interface CartSummary {
 
 /**
  * Pure cart math. Single source of truth for totals — reused by the client
- * and (later) the server's order service so the two can never disagree.
+ * and the server's order service so the two can never disagree. An optional
+ * coupon applies a discount (free-delivery threshold uses the pre-discount
+ * subtotal).
  */
-export function computeSummary(lines: CartLine[]): CartSummary {
+export function computeSummary(
+  lines: CartLine[],
+  coupon?: Coupon | null,
+): CartSummary {
   const subtotal = lines.reduce((sum, line) => sum + lineTotal(line), 0);
   const count = lines.reduce((n, line) => n + line.quantity, 0);
+  const discount = coupon ? computeDiscount(coupon, subtotal) : 0;
   const deliveryFee =
     subtotal === 0 || subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
 
-  return { subtotal, deliveryFee, total: subtotal + deliveryFee, count };
+  return {
+    subtotal,
+    discount,
+    deliveryFee,
+    total: subtotal - discount + deliveryFee,
+    count,
+  };
 }

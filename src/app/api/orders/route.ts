@@ -6,6 +6,7 @@ import { getCurrentUser, getSession } from "@/server/services/auth.service";
 interface OrderRequestBody {
   items: { productId: string; quantity: number }[];
   address: Address;
+  couponCode?: string;
 }
 
 /**
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
       customer: { name: user.name, email: user.email },
       items: body.items,
       address: body.address,
+      couponCode: body.couponCode,
     });
     return NextResponse.json(order, { status: 201 });
   } catch (err) {
