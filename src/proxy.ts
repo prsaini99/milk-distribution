@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE, decodeSession } from "@/lib/auth";
 
 /**
- * Route protection (role-aware):
+ * Route protection (role-aware). Next 16 renamed the "middleware" file
+ * convention to "proxy" — same behaviour, new name.
  *  - /admin/*              → requires an admin session
  *  - /checkout, /account/* → customer-only (role "user")
  *
@@ -10,7 +11,7 @@ import { SESSION_COOKIE, decodeSession } from "@/lib/auth";
  * customer-only route is sent to their dashboard (they aren't a customer),
  * and vice-versa — so the two roles never borrow each other's identity.
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const session = decodeSession(request.cookies.get(SESSION_COOKIE)?.value);
 
