@@ -4,6 +4,7 @@ import { CartBadge } from "@/components/cart/CartBadge";
 import { ModeSwitch } from "@/components/shop/ModeSwitch";
 import { UserMenu } from "@/components/auth/UserMenu";
 import { LogoutButton } from "@/components/auth/LogoutButton";
+import { ChatAssistant } from "@/components/assistant/ChatAssistant";
 import { getSession, getCurrentUser } from "@/server/services/auth.service";
 
 /**
@@ -131,6 +132,9 @@ export default async function ShopLayout({
           </div>
         </div>
       </footer>
+
+      {/* Shopping assistant — customers only (admins are previewing). */}
+      {session?.role !== "admin" && <ChatAssistant />}
     </div>
   );
 }
